@@ -3,4 +3,51 @@
   padding: 0;
   font-family: "Bangers", cursive;
 }
+
+.container div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.container div h1 {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.container ul {
+  margin-top: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  width: 100%;
+  list-style-type: none;
+}
+
+.container ul .countryContainer {
+  border: 1px solid black;
+  text-align: center;
+  font-size: 45px;
+  padding: 25px 10px;
+}
+
+.container ul .countryContainer .countryNames {
+  color: darkblue;
+}
+
+.container ul .countryContainer .numbers {
+  color: blue;
+}
 /*# sourceMappingURL=style.css.map */
