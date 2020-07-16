@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/darkly/bootstrap.min.css"
+    />
+    <title>Book List</title>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1 class="display-4 text-center">
+        <svg
+          width="1em"
+          height="1em"
+          viewBox="0 0 16 16"
+          class="bi bi-book-fill text-primary"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.261 13.666c.345.14.739-.105.739-.477V2.5a.472.472 0 0 0-.277-.437c-1.126-.503-5.42-2.19-7.723.129C5.696-.125 1.403 1.56.277 2.063A.472.472 0 0 0 0 2.502V13.19c0 .372.394.618.739.477C2.738 12.852 6.125 12.113 8 14c1.875-1.887 5.262-1.148 7.261-.334z"
+          />
+        </svg>
+        Book
+        <span class="text-primary">
+          List
+        </span>
+      </h1>
+      <form id="book-form">
+        <div class="form-group">
+          <label for="title">Title*</label
+          ><input type="text" id="title" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="auther">Author*</label
+          ><input type="text" id="auther" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="isbn" class="text-left">ISBN*</label
+          ><input type="number" id="isbn" class="form-control" />
+          <input
+            type="submit"
+            value="Add Book"
+            class="btn btn-primary btn-block mt-3"
+          />
+        </div>
+      </form>
+      <table class="table table-striped mt-5">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Auther</th>
+            <th>ISBN</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="book-list"></tbody>
+      </table>
+    </div>
+    <script src="app.js"></script>
+    <!-- firebase init -->
+    <script src="/__/firebase/init.js"></script>
+  </body>
+</html>
