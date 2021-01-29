@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+   <title>interviewTask</title>
+   <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+   <div class="root">
+      <section class="left">
+         <div class="registration-steps">
+            <span>Step 1 of 3</span>
+            <ul>
+               <li class="stepNo1" aria-label="Step 1 of 3"/>
+               <li class="stepNo2" aria-label="Step 2 of 3"/>
+               <li class="stepNo3" aria-label="Step 3 of 3"/>
+            </ul>
+         </div>
+         <div class="section-header">
+            <h1>Let's set up your account</h1>
+            <div>
+               <p>Already have an account?</p>
+               <a href="/signin">Sign in</a>
+            </div>
+         </div>
+         <form action="#" class="form-wrapper">
+            <div class="name input-group">
+               <label for="name"> Your name</label>
+               <input aria-label="Enter Your Name" type="text" name="name" id="name" required autocomplete="name"
+                  autofocus />
+            </div>
+            <div class="email input-group">
+               <label for="email" id="email-label"> Email address</label>
+               <input type="email" name="email" id="email" required autocomplete="email" />
+            </div>
+            <select name="userType" id="userType" required>
+               <option hidden aria-hidden="true" value="">I would describe my user type as</option>
+               <option value="developer">Developer</option>
+            </select>
+            <div class="password input-group">
+               <label for="password">Password</label>
+               <input type="password" name="password" id="password" autofocus required autocomplete="new-password"
+                  min="8" aria-label="enter your password. Minimum 8 characters"/>
+               <button type="button" aria-label="show password" class="show-password">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                     <path
+                        d="M12.015 7c4.751 0 8.063 3.012 9.504 4.636-1.401 1.837-4.713 5.364-9.504 5.364-4.42 0-7.93-3.536-9.478-5.407 1.493-1.647 4.817-4.593 9.478-4.593zm0-2c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 3c-2.209 0-4 1.792-4 4 0 2.209 1.791 4 4 4s4-1.791 4-4c0-2.208-1.791-4-4-4z" />
+                  </svg>
+               </button>
+               <small>Minimum 8 characters</small>
+            </div>
+            <button type="submit" class="submit">Next</button>
+         </form>
+         <p class="terms-conditions">
+            By clicking the "Next" button, you agree to creating a free account
+            and to <a href="">Terms of Service</a> and
+            <a href="">Privacy Policy</a>.
+         </p>
+      </section>
+      <section class="right">
+         <h1>
+            Dummy Heading
+         </h1>
+         <p>
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout.
+         </p>
+      </section>
+   </div>
+   <script src="./index.js"></script>
+</body>
+
+</html>

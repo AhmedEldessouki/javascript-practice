@@ -1,0 +1,272 @@
+body {
+  margin: 0;
+}
+
+body .root {
+  height: 100vh;
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 7.5fr 4fr;
+      grid-template-columns: 7.5fr 4fr;
+  font-family: "Inv Maison Neue", "Maison Neue", -apple-system, BlinkMacSystemFont, "Open Sans", open-sans, sans-serif;
+}
+
+body .root .left {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  place-items: center;
+  place-content: baseline;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  background: white;
+}
+
+body .root .left .registration-steps {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  place-items: center;
+  place-content: flex-end;
+  margin: 20px 34px 130px 0;
+}
+
+body .root .left .registration-steps span {
+  font-size: 0.6rem;
+  font-weight: 600;
+}
+
+body .root .left .registration-steps ul {
+  padding-left: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 5px;
+  list-style: none;
+  margin: 0;
+}
+
+body .root .left .registration-steps ul li {
+  margin: 0;
+  padding: 0;
+  border: 1px solid;
+  border-color: #cccccc;
+  background-color: #cccccc;
+  border-radius: 50%;
+  height: 2px;
+  width: 2px;
+}
+
+body .root .left .section-header {
+  margin-bottom: 15px;
+  width: 400px;
+}
+
+body .root .left .section-header h1,
+body .root .left .section-header div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  place-items: baseline;
+}
+
+body .root .left .form-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 20px;
+  width: 400px;
+}
+
+body .root .left .form-wrapper .input-group {
+  margin-top: -20px;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+body .root .left .form-wrapper .input-group label {
+  z-index: 99999;
+  position: relative;
+  top: 32px;
+  left: 12px;
+  color: darkgray;
+  height: 46px;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+body .root .left .form-wrapper input,
+body .root .left .form-wrapper select {
+  border: 1px solid whitesmoke;
+  line-height: 40px;
+  width: calc(100% - 22px);
+  padding: 2px 11px;
+  font-size: medium;
+  border-radius: 5px;
+  background-color: white;
+}
+
+body .root .left .form-wrapper select {
+  width: 100%;
+  height: 51px;
+  padding: 0 7px;
+  color: gray;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"), -webkit-gradient(linear, left top, left bottom, from(white), to(white));
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"), linear-gradient(to bottom, white 0%, white 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
+}
+
+body .root .left .form-wrapper select option {
+  color: black;
+}
+
+body .root .left .form-wrapper .password {
+  position: relative;
+  height: 66px;
+}
+
+body .root .left .form-wrapper .password input {
+  z-index: 0;
+}
+
+body .root .left .form-wrapper .password .show-password {
+  width: 10%;
+  z-index: 1;
+  border: none;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  position: relative;
+  top: -37px;
+  right: -357px;
+  background-color: transparent;
+}
+
+body .root .left .form-wrapper small {
+  margin-left: -37px;
+}
+
+body .root .left .submit {
+  line-height: 40px;
+  border: none;
+  padding: 0;
+  width: 100%;
+  background-color: #286efa;
+  color: white;
+  margin: 13px 0;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+body .root .left .submit:disabled {
+  color: gainsboro;
+  background-color: #f2f2f2;
+}
+
+body .root .left a {
+  text-decoration: none;
+  color: #286efa;
+  font-weight: 700;
+}
+
+body .root .left small {
+  color: gray;
+  font-size: 10px;
+}
+
+body .root .left .terms-conditions {
+  font-size: 12px;
+  width: 400px;
+}
+
+@media (max-width: 992px) {
+  body .root .left .section-header,
+  body .root .left .form-wrapper,
+  body .root .left .terms-conditions {
+    width: 300px;
+  }
+  body .root .left .show-password {
+    right: -261px !important;
+  }
+}
+
+body .root .right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  place-items: center;
+  place-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: #286efa;
+  color: white;
+}
+
+body .root .right p {
+  width: 300px;
+  font-size: 14px;
+  word-spacing: 0px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+@media (max-width: 992px) {
+  body .root .right p {
+    width: 150px;
+  }
+}
+
+.currentStep {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.error-input {
+  border-color: tomato !important;
+}
+
+.error-label {
+  color: tomato !important;
+}
+
+.error-message {
+  font-size: 0.75rem;
+  color: tomato;
+  position: relative;
+  top: 10px;
+  margin: auto;
+}
+
+.input-is-focused label {
+  top: 8px !important;
+  left: 11px !important;
+  background-color: white;
+  font-size: smaller;
+}
+/*# sourceMappingURL=styles.css.map */
