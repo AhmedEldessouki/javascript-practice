@@ -1,26 +1,11 @@
-function solution(number) {
-  const results = []
-  let start = 1
-
-  do {
-    results.push(start * 3 < number ? start * 3 : start * 5 < number ? start * 5 : 0)
-    results.push(start * 5 < number ? start * 5 : start * 3 < number ? start * 3 : 0)
-    start++
-  } while ((start * 3 || start * 5) < number);
-
-  results.sort((a, b) => a - b).forEach((num, x) => results.find((numb, i) => {
-    if (i !== x) {
-      if (num === numb) {
-        results.splice(i, 1)
-      }
-    }
-  }))
-  const sum = results.reduce((a, b) => {
-    return a + b
-  });
-  return sum
+function getDecimal(n) {
+  let num = n < 0 ? -n : n
+  let num2 = Math.floor(num)
+  return num - num2; // fix me 
 }
 
-console.log(solution(10));
-console.log(solution(24));
-console.log(solution(30));
+console.log(getDecimal(10), 0);
+
+console.log(getDecimal(-1.2), 0.2);
+
+console.log(getDecimal(4.5), 0.5);
