@@ -1,19 +1,7 @@
-function beggars(values, n) {
-  const newArray = Array(n).fill(0)
-  if (n === 0) return []
-  let i = 0
-  do {
-    for (let index = 0; index < n; index++) {
-      newArray[index] += values[i] ? values[i] : 0
-      i++
-    }
-  } while (i < values.length)
-
-  return newArray
+function beggars(str = '') {
+  return str.replace(/[A-Z]/g, (s) => ` ${s}`)
 }
 
-console.log(beggars([1, 2, 3, 4, 5], 1), [15])
-console.log(beggars([1, 2, 3, 4, 5], 2), [9, 6])
-console.log(beggars([1, 2, 3, 4, 5], 3), [5, 7, 3])
-console.log(beggars([1, 2, 3, 4, 5], 6), [1, 2, 3, 4, 5, 0])
-console.log(beggars([1, 2, 3, 4, 5], 0), [])
+console.log(beggars('mochaPad'))
+console.log(beggars('mochaPadPad'))
+console.log(beggars('mochaPadMac'))
