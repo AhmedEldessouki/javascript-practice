@@ -1,22 +1,19 @@
-function moveZeros(arr = '') {
-  function twistIt(str = '') {
-    return str.split('').map((a, i, arr) => arr[arr.length - i - 1]).join('')
+
+function manhattanDistance(nFloors) {
+  const arr = []
+  if (nFloors < 0) return arr
+  for (let i = 0; i < nFloors; i++) {
+    let str = '*'
+    str = str.padStart(nFloors - i, ' ')
+    for (let x = 0; x < i; x++) {
+      str += '**'
+    }
+    str = str.padEnd(nFloors * 2 - 1, ' ')
+    arr.push(str)
   }
-  return arr.split(' ').map(item => twistIt(item)).join(' ')
+  return arr
 }
 
-console.log(moveZeros("double  spaces"), "double  spaces", '==>', "elbuod  secaps")
-console.log(moveZeros("double  spaces"), "double  spaces", '==>', "elbuod  secaps")
-console.log(moveZeros("double  spaces"), "double  spaces", '==>', "elbuod  secaps")
-
-function manhattanDistance(arr0, arr1) {
-  function fn(params) {
-
-    return Math.abs(params)
-  }
-  return (fn(arr0[0] - arr1[0]) + fn(arr0[1] - arr1[1]))
-}
-
-console.log(manhattanDistance([1, 1], [1, 1]), '=> returns 0')
-console.log(manhattanDistance([5, 4], [3, 2]), '=> returns 4')
-console.log(manhattanDistance([1, 1], [0, 3]), '=> returns 3')
+console.log(manhattanDistance(1 + 1))
+console.log(manhattanDistance(4 + 2))
+console.log(manhattanDistance(1 + 3))
