@@ -56,9 +56,9 @@ const arrayEvery = (arrr, predicate) => {
   return result
 
 }
-console.log(chalk.bgBlue(chalk.black('[Array.Every] ', arr.length, arr[0].length)))
-console.log(chalk.bgRedBright(chalk.black('[Array.Every]: Should Fail', arrayEvery(arr, item => item.length < 3))))
-console.log(chalk.bgGreenBright(chalk.black('[Array.Every]: Should Pass', arrayEvery(arr, item => item.length < 4))))
-console.log(chalk.bgRedBright(chalk.black('[Array.Every]: Should Fail', arr.every(item => item.length < 3))))
-console.log(chalk.bgGreenBright(chalk.black('[Array.Every]: Should Pass', arr.every(item => item.length < 4))))
-console.log(chalk.bgGreenBright(chalk.black('[Array.Some]: Should Pass', arr.some(item => item.length > 2))))
+console.log(chalk.bgBlue.black('[Array.Every] ', arr.length, arr[0].length))
+console.log(chalk.bgRedBright.black('[Array.Every]: Should Fail', arrayEvery(arr, item => item.length < 3)))
+console.log(chalk.bgGreenBright.black('[Array.Every]: Should Pass', arrayEvery(arr, item => item.length < 4)))
+console.log(chalk.bgRedBright.black('[Array.Every]: Should Fail', arr.every(item => item.length < 3)))
+console.log(chalk.bgGreenBright.black('[Array.Every]: Should Pass', arr.every(item => item.length < 4)))
+console.log(chalk.bgGreenBright.black('[Array.Some]: Should Pass', arr.some(item => item.length > 2)))
