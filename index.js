@@ -1,19 +1,23 @@
-
-function manhattanDistance(nFloors) {
-  const arr = []
-  if (nFloors < 0) return arr
-  for (let i = 0; i < nFloors; i++) {
-    let str = '*'
-    str = str.padStart(nFloors - i, ' ')
-    for (let x = 0; x < i; x++) {
-      str += '**'
+function expandedForm(num = 0) {
+  function returnZero(params, i, arr) {
+    if (i === arr.length - 1) {
+      return params;
     }
-    str = str.padEnd(nFloors * 2 - 1, ' ')
-    arr.push(str)
+    return returnZero(params + "0", (i += 1), arr);
   }
-  return arr
-}
+  const arr = num
+    .toString()
+    .split("")
+    .map((item, i, arr) => {
+      if (parseInt(item) >= 1) {
+        return returnZero(item, i, arr);
+      }
+      return item;
+    });
 
-console.log(manhattanDistance(1 + 1))
-console.log(manhattanDistance(4 + 2))
-console.log(manhattanDistance(1 + 3))
+  return arr.filter((a) => a > 0).join(" + ");
+}
+console.log(expandedForm(12)); // Should return '10 + 2'
+console.log(expandedForm(42)); // Should return '40 + 2'
+console.log(expandedForm(70304)); // Should return '70000 + 300 + 4'
+console.log(expandedForm(402070022)); // Should return '70000 + 300 + 4'
