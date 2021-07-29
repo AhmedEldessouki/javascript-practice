@@ -1,32 +1,19 @@
-// ! An Awesome answer! NOT MINE
-// function solve(str = "") {
-//   let arr = [...str].filter((x) => x != " ");
-//   console.log(arr);
-
-//   return str.replace(/\S/g, (_) => {
-//     console.log(_);
-//     return arr.pop();
-//   });
-// }
 function solve(str = "") {
-  const spaceIndexes = [];
-  const newArr = str.split("");
-  newArr.forEach((item, i, arr) => {
-    if (item === " ") {
-      spaceIndexes.push(i);
-      arr.splice(i, 1);
-    }
-  });
-  newArr.reverse();
-  spaceIndexes.forEach((item, i) => {
-    newArr[item - 1] += " ";
-  });
-  return newArr.join("");
+  const specialRegex = /[-+*\/] ?/g;
+  const othersRegex = /[0-9a-z] ?/gi;
+  const others = str
+    .split(othersRegex)
+    .reduce((acc, item) => {
+      if (item !== "") return acc.concat(item);
+      return acc;
+    }, [])
+    .reverse();
+
+  return str
+    .split(specialRegex)
+    .reverse()
+    .map((item, i) => (item += others[i] ? others[i] : ""))
+    .join("");
 }
-console.log(solve("your code rocks")); // Should return  "skco redo cruoy"
-console.log(solve("codewars")); // Should return "srawedoc"
-console.log(
-  solve(
-    "o we pmpetva vwr bno kp d t j qe lb d ug ztjr rdqgjg gxwugtu zp d o djc lxbx dtqda b qc rm u q rkiehszc"
-  )
-);
+console.log(solve("100*b/y")); // Should return  "y/b*100"
+console.log(solve("a+b-c/d*30")); // Should return "30*d/c-b+a"
