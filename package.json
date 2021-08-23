@@ -1,8 +1,4 @@
 {
-  "dependencies": {
-    "node-fetch": "^2.6.1",
-    "prettier": "^2.2.1"
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -10,6 +6,7 @@
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1"
+    "eslint-plugin-promise": "^4.2.1",
+    "prettier": "^2.3.2"
   }
 }
