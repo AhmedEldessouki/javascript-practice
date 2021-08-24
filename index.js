@@ -1,25 +1,27 @@
-function howSum(totalSum, numArr, memo = {}) {
-  if (totalSum in memo) return memo[totalSum];
-  if (totalSum === 0) return [];
-  if (totalSum < 0) return null;
+function bestSum(targetSum, numArr, memo = {}) {
+  if (targetSum in memo) return memo[targetSum];
+  if (targetSum === 0) return [];
+  if (targetSum < 0) return null;
+  let shortest = null;
 
   for (let num of numArr) {
-    const remainder = totalSum - num;
-    const returnedValue = howSum(remainder, numArr, memo);
+    const remainder = targetSum - num;
+    const returnedValue = bestSum(remainder, numArr, memo);
     if (returnedValue) {
-      memo[totalSum] = [...returnedValue, num];
-      return memo[totalSum];
+      memo[targetSum] = [...returnedValue, num];
+      if (shortest === null || memo[targetSum].length < shortest.length) {
+        shortest = memo[targetSum];
+      }
     }
   }
-
-  memo[totalSum] = null;
-  return null;
+  memo[targetSum] = shortest;
+  return shortest;
 }
 
-console.log(howSum(1, [9, 2]));
-console.log(howSum(2, [1, 4, 5, 9, 2]));
-console.log(howSum(3, [2, 4, 5, 9, 2]));
-console.log(howSum(3, [1, 4, 5, 9, 2]));
-console.log(howSum(9, [3, 4, 5, 2]));
-console.log(howSum(18, [4, 5, 9, 2]));
-console.log(howSum(300, [7, 14]));
+console.log(bestSum(1, [9, 2]));
+console.log(bestSum(2, [1, 4, 5, 9, 2]));
+console.log(bestSum(3, [2, 4, 5, 9, 1]));
+console.log(bestSum(3, [1, 4, 5, 9, 2]));
+console.log(bestSum(9, [3, 4, 5, 2]));
+console.log(bestSum(18, [4, 5, 9, 2]));
+console.log(bestSum(300, [7, 14]));
