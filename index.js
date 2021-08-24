@@ -1,27 +1,38 @@
-function bestSum(targetSum, numArr, memo = {}) {
-  if (targetSum in memo) return memo[targetSum];
-  if (targetSum === 0) return [];
-  if (targetSum < 0) return null;
-  let shortest = null;
+function canConstruct(target, wordBank, memo = {}) {
+  if (target in memo) return memo[target];
+  if (target === "") return true;
 
-  for (let num of numArr) {
-    const remainder = targetSum - num;
-    const returnedValue = bestSum(remainder, numArr, memo);
-    if (returnedValue) {
-      memo[targetSum] = [...returnedValue, num];
-      if (shortest === null || memo[targetSum].length < shortest.length) {
-        shortest = memo[targetSum];
+  for (const word of wordBank) {
+    if (target.indexOf(word) === 0) {
+      const suffix = target.slice(word.length);
+      // ! Don't Forget Passing Down The MEMO
+      if (canConstruct(suffix, wordBank, memo)) {
+        memo[target] = true;
+        return true;
       }
     }
   }
-  memo[targetSum] = shortest;
-  return shortest;
+
+  memo[target] = false;
+  return false;
 }
 
-console.log(bestSum(1, [9, 2]));
-console.log(bestSum(2, [1, 4, 5, 9, 2]));
-console.log(bestSum(3, [2, 4, 5, 9, 1]));
-console.log(bestSum(3, [1, 4, 5, 9, 2]));
-console.log(bestSum(9, [3, 4, 5, 2]));
-console.log(bestSum(18, [4, 5, 9, 2]));
-console.log(bestSum(300, [7, 14]));
+console.log(canConstruct(`programming`, ["amming", "p", "rog"])); // false
+console.log(canConstruct(`programming`, ["ramming", "p", "rog"])); // true
+console.log(canConstruct("interview", ["ew", "vi", "in", "ter"])); // true
+console.log(
+  canConstruct("ooooooowoooooooooooooooohoooooooooooooo", [
+    "o",
+    "oo",
+    "ooo",
+    "oooo",
+    "h",
+    "w",
+  ])
+);
+console.log(
+  canConstruct(
+    "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef",
+    ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"]
+  )
+);
