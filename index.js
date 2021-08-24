@@ -1,17 +1,24 @@
-function gridTraveler(row, column, memo = {}) {
-  if (row === 1 && column === 1) return 1;
-  if (row === 0 || column === 0) return 0;
-  const key = row + "," + column;
-  if (key in memo) return memo[key];
-  memo[key] =
-    gridTraveler(row - 1, column, memo) + gridTraveler(row, column - 1, memo);
-  return memo[key];
+function canSum(totalSum, numArr, memo = {}) {
+  if (totalSum in memo) return memo[totalSum];
+  if (totalSum === 0) return true;
+  if (totalSum < 0) return false;
+
+  for (let num of numArr) {
+    const remainder = totalSum - num;
+    if (canSum(remainder, numArr, memo)) {
+      memo[totalSum] = true;
+      return true;
+    }
+  }
+
+  memo[totalSum] = false;
+  return false;
 }
 
-console.log(gridTraveler(1, 0));
-console.log(gridTraveler(2, 1));
-console.log(gridTraveler(3, 2));
-console.log(gridTraveler(3, 3));
-console.log(gridTraveler(9, 3));
-console.log(gridTraveler(18, 18));
-console.log(gridTraveler(39, 14));
+console.log(canSum(1, [9, 2]));
+console.log(canSum(2, [1, 4, 5, 9, 2]));
+console.log(canSum(3, [2, 4, 5, 9, 2]));
+console.log(canSum(3, [1, 4, 5, 9, 2]));
+console.log(canSum(9, [3, 4, 5, 2]));
+console.log(canSum(18, [4, 5, 9, 2]));
+console.log(canSum(300, [7, 14]));
