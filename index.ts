@@ -1,60 +1,77 @@
-function passphrase(s: string, n: number): string {
+function encryptThis(s: string): string {
   // your code
-  console.log(s, n);
-  const alphabets = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-  ];
+  const alphabets: { [key: string]: number } = {
+    A: 65,
+    B: 66,
+    C: 67,
+    D: 68,
+    E: 69,
+    F: 70,
+    G: 71,
+    H: 72,
+    I: 73,
+    J: 74,
+    K: 75,
+    L: 76,
+    M: 77,
+    N: 78,
+    O: 79,
+    P: 80,
+    Q: 81,
+    R: 82,
+    S: 83,
+    T: 84,
+    U: 85,
+    V: 86,
+    W: 87,
+    X: 88,
+    Y: 89,
+    Z: 90,
+    a: 97,
+    b: 98,
+    c: 99,
+    d: 100,
+    e: 101,
+    f: 102,
+    g: 103,
+    h: 104,
+    i: 105,
+    j: 106,
+    k: 107,
+    l: 108,
+    m: 109,
+    n: 110,
+    o: 111,
+    p: 112,
+    q: 113,
+    r: 114,
+    s: 115,
+    t: 116,
+    u: 117,
+    v: 118,
+    w: 119,
+    x: 120,
+    y: 121,
+    z: 122,
+  };
+
   return s
-    .split("")
+    .split(" ")
     .map((item, i) => {
-      const place = alphabets.indexOf(item.toLowerCase());
-      if ((place < 0 && isNaN(Number(item))) || item === " ") {
-        return item;
+      if (item.match(/[a-z]/i)) {
+        return item
+          .split("")
+          .map((letter, x) => {
+            if (x === 0) return alphabets[letter];
+            if (x === 1) return item[item.length - 1];
+            if (x === item.length - 1) return item[1];
+            return letter;
+          })
+          .join("");
       }
-
-      if (place >= 0) {
-        const newElement = place + n;
-        const newPlace =
-          newElement >= alphabets.length
-            ? newElement - alphabets.length
-            : newElement;
-
-        return i % 2 === 0
-          ? alphabets[newPlace].toUpperCase()
-          : alphabets[newPlace].toLowerCase();
-      }
-      if (item.search(/[0-9]/)) {
-        console.log(Number(item), 9 - Number(item));
-        return 9 - Number(item);
-      }
+      return item;
     })
-    .reverse()
-    .join("");
+    .join(" ");
 }
 
-console.log(passphrase(`I love u !!!`, 1));
+console.log(encryptThis(`I Love u !!!`));
