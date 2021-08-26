@@ -1,13 +1,56 @@
-function miniMaxSum(arr = []) {
-  // Write your code here
-  const res = arr.map((num, index, array) => {
-    console.log(
-      array.reduce((acc, numb, i) => (index !== i ? (acc += numb) : acc), 0)
-    );
-    return array.reduce((acc, numb) => (acc += numb), 0);
-  });
-  console.log(res);
-  console.log(Math.min(...res));
-  console.log(Math.max(...res));
+function passphrase(s, n) {
+    // your code
+    console.log(s, n);
+    var alphabets = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+    ];
+    return s
+        .split("")
+        .map(function (item, i) {
+        var place = alphabets.indexOf(item.toLowerCase());
+        if ((place < 0 && isNaN(Number(item))) || item === " ") {
+            return item;
+        }
+        if (place >= 0) {
+            var newElement = place + n;
+            var newPlace = newElement >= alphabets.length
+                ? newElement - alphabets.length
+                : newElement;
+            return i % 2 === 0
+                ? alphabets[newPlace].toUpperCase()
+                : alphabets[newPlace].toLowerCase();
+        }
+        if (item.search(/[0-9]/)) {
+            console.log(Number(item), 9 - Number(item));
+            return 9 - Number(item);
+        }
+    })
+        .reverse()
+        .join("");
 }
-console.log(miniMaxSum([1, 2, 3, 4, 5]));
+console.log(passphrase("I love u !!!", 1));
