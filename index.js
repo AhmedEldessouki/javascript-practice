@@ -1,27 +1,27 @@
-function canConstruct(target, wordBank, memo = {}) {
+function countConstruct(target, wordBank, memo = {}) {
   if (target in memo) return memo[target];
-  if (target === "") return true;
-
+  if (target === "") {
+    return 1;
+  }
   for (const word of wordBank) {
     if (target.indexOf(word) === 0) {
       const suffix = target.slice(word.length);
       // ! Don't Forget Passing Down The MEMO
-      if (canConstruct(suffix, wordBank, memo)) {
-        memo[target] = true;
-        return true;
-      }
+      if (!(target in memo)) memo[target] = 0;
+      memo[target] += countConstruct(suffix, wordBank, memo);
     }
   }
 
-  memo[target] = false;
-  return false;
+  return memo[target] || 0;
 }
 
-console.log(canConstruct(`programming`, ["amming", "p", "rog"])); // false
-console.log(canConstruct(`programming`, ["ramming", "p", "rog"])); // true
-console.log(canConstruct("interview", ["ew", "vi", "in", "ter"])); // true
+console.log(countConstruct(`programming`, ["amming", "p", "rog"])); // 0
 console.log(
-  canConstruct("ooooooowoooooooooooooooohoooooooooooooo", [
+  countConstruct(`programming`, ["ramming", "ram", "ming", "p", "rog"])
+); // 2
+console.log(countConstruct("interview", ["ew", "vi", "in", "ter"])); // 1
+console.log(
+  countConstruct("ooooooowoooooooooooooooohoooooooooooooo", [
     "o",
     "oo",
     "ooo",
@@ -31,7 +31,7 @@ console.log(
   ])
 );
 console.log(
-  canConstruct(
+  countConstruct(
     "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef",
     ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"]
   )
