@@ -12,12 +12,9 @@ export function superStreetFighterSelection(
           position[0] -= 1;
         }
         if (fighters[position[0]][position[1]] === "") {
-          if (position[0] !== 0) {
-            position[0] -= 1;
-          } else {
-            position[0] += 1;
-          }
+          position[0] += 1;
         }
+
         hoveredArr.push(fighters[position[0]][position[1]]);
         break;
       case "down":
@@ -25,12 +22,9 @@ export function superStreetFighterSelection(
           position[0] += 1;
         }
         if (fighters[position[0]][position[1]] === "") {
-          if (position[0] !== fighters.length - 1) {
-            position[0] = 0;
-          } else {
-            position[0] -= 1;
-          }
+          position[0] -= 1;
         }
+
         hoveredArr.push(fighters[position[0]][position[1]]);
         break;
       case "left":
@@ -197,6 +191,7 @@ moves = [
   "right",
   "left",
 ];
+
 console.log(superStreetFighterSelection(fighters, initial_position, moves), []);
 fighters = [
   ["", "Ryu", "E.Honda", "Cammy"],
@@ -208,53 +203,35 @@ fighters = [
 ];
 initial_position = [3, 1];
 moves = [
-  "up",
-  "up",
-  "up",
-  "left",
   "down",
-  "down",
-  "down",
-  "right",
-  "up",
-  "right",
   "left",
   "left",
   "up",
-  "up",
-  "left",
-  "left",
-  "down",
   "down",
   "up",
-  "left",
-  "right",
-  "up",
-  "right",
-  "left",
-  "up",
   "up",
   "left",
-  "right",
-  "down",
-  "right",
-  "left",
   "up",
-  "right",
   "up",
   "right",
   "up",
   "down",
+  "left",
+  "left",
+  "left",
+  "left",
+  "down",
+  "down",
+  "left",
   "up",
+  "down",
+  "up",
+  "right",
   "down",
   "right",
-  "up",
-  "up",
-  "down",
   "left",
   "down",
   "up",
-  "left",
   "left",
 ];
 console.log(superStreetFighterSelection(fighters, initial_position, moves), []);
