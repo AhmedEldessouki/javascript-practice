@@ -1,78 +1,70 @@
-function encryptThis(s) {
+function getPicks(fighters, position, moves) {
     // your code
-    var alphabets = {
-        A: 65,
-        B: 66,
-        C: 67,
-        D: 68,
-        E: 69,
-        F: 70,
-        G: 71,
-        H: 72,
-        I: 73,
-        J: 74,
-        K: 75,
-        L: 76,
-        M: 77,
-        N: 78,
-        O: 79,
-        P: 80,
-        Q: 81,
-        R: 82,
-        S: 83,
-        T: 84,
-        U: 85,
-        V: 86,
-        W: 87,
-        X: 88,
-        Y: 89,
-        Z: 90,
-        a: 97,
-        b: 98,
-        c: 99,
-        d: 100,
-        e: 101,
-        f: 102,
-        g: 103,
-        h: 104,
-        i: 105,
-        j: 106,
-        k: 107,
-        l: 108,
-        m: 109,
-        n: 110,
-        o: 111,
-        p: 112,
-        q: 113,
-        r: 114,
-        s: 115,
-        t: 116,
-        u: 117,
-        v: 118,
-        w: 119,
-        x: 120,
-        y: 121,
-        z: 122
-    };
-    return s
-        .split(" ")
-        .map(function (item, i) {
-        if (item.match(/[a-z]/i)) {
-            return item
-                .split("")
-                .map(function (letter, x) {
-                if (x === 0)
-                    return alphabets[letter];
-                if (x === 1)
-                    return item[item.length - 1];
-                if (x === item.length - 1)
-                    return item[1];
-                return letter;
-            })
-                .join("");
+    var hoveredArr = [];
+    for (var _i = 0, moves_1 = moves; _i < moves_1.length; _i++) {
+        var move = moves_1[_i];
+        switch (move) {
+            case "up":
+                if (position[0] !== 0) {
+                    position[0] -= 1;
+                }
+                hoveredArr.push(fighters[position[0]][position[1]]);
+                break;
+            case "down":
+                if (position[0] !== 1) {
+                    position[0] += 1;
+                }
+                hoveredArr.push(fighters[position[0]][position[1]]);
+                break;
+            case "left":
+                if (position[1] === 0) {
+                    position[1] = fighters[0].length - 1;
+                }
+                else {
+                    position[1] -= 1;
+                }
+                hoveredArr.push(fighters[position[0]][position[1]]);
+                break;
+            case "right":
+                if (position[1] === fighters[0].length - 1) {
+                    position[1] = 0;
+                }
+                else {
+                    position[1] += 1;
+                }
+                hoveredArr.push(fighters[position[0]][position[1]]);
+                break;
+            default:
+                break;
         }
-        return item;
-    })
-        .join(" ");
+    }
+    return hoveredArr;
 }
-console.log(encryptThis("I Love u !!!"));
+var fighters = [
+    ["Ryu", "E.Honda", "Blanka", "Guile", "Balrog", "Vega"],
+    ["Ken", "Chun Li", "Zangief", "Dhalsim", "Sagat", "M.Bison"],
+];
+var initial_position = [0, 0];
+var moves = ["up", "left", "right", "left", "left"];
+console.log(getPicks(fighters, initial_position, moves), [
+    "Ryu",
+    "Vega",
+    "Ryu",
+    "Vega",
+    "Balrog",
+]);
+fighters = [
+    ["Ryu", "E.Honda", "Blanka", "Guile", "Balrog", "Vega"],
+    ["Ken", "Chun Li", "Zangief", "Dhalsim", "Sagat", "M.Bison"],
+];
+initial_position = [0, 0];
+moves = ["right", "down", "left", "left", "left", "left", "right"];
+console.log(getPicks(fighters, initial_position, moves), [
+    "E.Honda",
+    "Chun Li",
+    "Ken",
+    "M.Bison",
+    "Sagat",
+    "Dhalsim",
+    "Sagat",
+]);
