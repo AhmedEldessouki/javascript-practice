@@ -1,33 +1,24 @@
-function countConstruct(target, wordBank, memo) {
+function multiplication(n, m, memo) {
     if (memo === void 0) { memo = {}; }
-    if (target in memo)
-        return memo[target];
-    if (target === "") {
-        return 1;
+    if (n === 0 || m === 0) {
+        return 0;
     }
+    if (m.toString().length < 2)
+        return n * m;
+    if (m in memo)
+        return memo[m];
     var totalCount = 0;
-    for (var _i = 0, wordBank_1 = wordBank; _i < wordBank_1.length; _i++) {
-        var word = wordBank_1[_i];
-        if (target.indexOf(word) === 0) {
-            var suffix = target.slice(word.length);
-            // ! Don't Forget Passing Down The MEMO
-            if (!(target in memo))
-                memo[target] = 0;
-            totalCount += countConstruct(suffix, wordBank, memo);
-        }
+    var arrOfM = m.toString().split("").reverse();
+    for (var i = 0; i < arrOfM.length; i++) {
+        var num = arrOfM[i];
+        memo[num] = Number(multiplication(n, Number(num), memo) + Array(i).fill(0).join(""));
+        totalCount += memo[num];
     }
-    memo[target] = totalCount;
+    memo[m] = totalCount;
     return totalCount;
 }
-console.log(countConstruct("programming", ["amming", "p", "rog"])); // 0
-console.log(countConstruct("programming", ["ramming", "ram", "ming", "p", "rog"])); // 2
-console.log(countConstruct("interview", ["ew", "vi", "in", "ter"])); // 1
-console.log(countConstruct("ooooooowoooooooooooooooohoooooooooooooo", [
-    "o",
-    "oo",
-    "ooo",
-    "oooo",
-    "h",
-    "w",
-])); // 6376719104
-console.log(countConstruct("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"])); // 0
+console.log(multiplication(2, 2)); // 4
+console.log(multiplication(22, 22)); // 484
+console.log(multiplication(22, 2253));
+console.log(multiplication(214532, 0)); // 0
+console.log(multiplication(214532, 145368722));
