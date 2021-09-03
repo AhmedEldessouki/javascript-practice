@@ -1,24 +1,49 @@
-function multiplication(n, m, memo) {
-    if (memo === void 0) { memo = {}; }
-    if (n === 0 || m === 0) {
-        return 0;
+function multiply(value, times) {
+  if (value === null) return null;
+  if (typeof times !== "number" || isNaN(times)) throw new Error("");
+
+  function checkTimes(n) {
+    if (n < 0 || times % 1 !== 0) {
+      throw new Error("");
     }
-    if (m.toString().length < 2)
-        return n * m;
-    if (m in memo)
-        return memo[m];
-    var totalCount = 0;
-    var arrOfM = m.toString().split("").reverse();
-    for (var i = 0; i < arrOfM.length; i++) {
-        var num = arrOfM[i];
-        memo[num] = Number(multiplication(n, Number(num), memo) + Array(i).fill(0).join(""));
-        totalCount += memo[num];
-    }
-    memo[m] = totalCount;
-    return totalCount;
+  }
+
+  switch (typeof value) {
+    case "number":
+      if (times > Number.MAX_VALUE) {
+        throw new Error("");
+      }
+      return value * times;
+    case "string":
+      checkTimes(times);
+      return times > 0 ? value.repeat(times) : ``;
+    case "object":
+      checkTimes(times);
+      return times > 0 ? Array(times).fill(value) : [];
+    case "function":
+      if (times === 0) return;
+      checkTimes(times);
+      return function () {
+        for (var i = 0; i < times; i++) {
+          value.apply(this, arguments);
+        }
+      };
+    default:
+      return value;
+  }
 }
-console.log(multiplication(2, 2)); // 4
-console.log(multiplication(22, 22)); // 484
-console.log(multiplication(22, 2253));
-console.log(multiplication(214532, 0)); // 0
-console.log(multiplication(214532, 145368722));
+console.log(function func() {
+  if (valid) {
+    console.log("still valid, original called");
+    hits++;
+    if (this !== context) {
+      Test.expect(false, "Incorrect context.");
+      valid = false;
+    } else if (
+      Test.inspect(Array.prototype.slice.call(arguments, 0)) === args
+    ) {
+      Test.expect(false, "Incorrect arguments.");
+      valid = false;
+    }
+  }
+}, 222); // 4

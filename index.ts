@@ -1,31 +1,34 @@
-function multiplication(
-  n: number,
-  m: number,
-  memo: { [key: string]: number } = {}
-): number {
-  if (n === 0 || m === 0) {
-    return 0;
-  }
-  if (m.toString().length < 2) return n * m;
-  if (m in memo) return memo[m];
-
-  let totalCount = 0;
-  const arrOfM = m.toString().split("").reverse();
-
-  for (let i = 0; i < arrOfM.length; i++) {
-    let num = arrOfM[i];
-    memo[num] = Number(
-      multiplication(n, Number(num), memo) + Array(i).fill(0).join("")
-    );
-    totalCount += memo[num];
+function multiply(value: any, times: number): any {
+  function checkTimes(n: number) {
+    if (n < 0) {
+      throw new Error("");
+    }
   }
 
-  memo[m] = totalCount;
-  return totalCount;
+  switch (typeof value) {
+    case "number":
+      if (times > Number.MAX_VALUE) {
+        throw new Error("");
+      }
+      return value * times;
+    case "string":
+      checkTimes(times);
+      return times > 0 ? value.repeat(times) : ``;
+    case "object":
+      checkTimes(times);
+      return times > 0 ? Array(times).fill(value) : [];
+    default:
+      return value;
+  }
+
+  if (times === 0) {
+    return "";
+  }
+  return value.repeat(times);
 }
 
-console.log(multiplication(2, 2)); // 4
-console.log(multiplication(22, 22)); // 484
-console.log(multiplication(22, 2253)); // 49566
-console.log(multiplication(214532, 0)); // 0
-console.log(multiplication(214532, 145368722)); // 31186242668104
+console.log(multiply("asd-", 2)); // 4
+console.log(multiply("asd-", 22)); // 484
+console.log(multiply("asd-", 2253)); // 49566
+console.log(multiply("asd-", 0)); // 0
+console.log(multiply("asd-", 145368722)); // 31186242668104
