@@ -1,237 +1,27 @@
-export function superStreetFighterSelection(
-  fighters: Array<string[]>,
-  position: number[],
-  moves: string[]
-) {
-  const hoveredArr = [];
-  console.log(fighters, position, moves);
-  for (const move of moves) {
-    switch (move) {
-      case "up":
-        if (position[0] !== 0) {
-          position[0] -= 1;
-        }
-        if (fighters[position[0]][position[1]] === "") {
-          position[0] += 1;
-        }
-
-        hoveredArr.push(fighters[position[0]][position[1]]);
-        break;
-      case "down":
-        if (position[0] !== fighters.length - 1) {
-          position[0] += 1;
-        }
-        if (fighters[position[0]][position[1]] === "") {
-          position[0] -= 1;
-        }
-
-        hoveredArr.push(fighters[position[0]][position[1]]);
-        break;
-      case "left":
-        if (position[1] === 0) {
-          position[1] = fighters[0].length - 1;
-        } else {
-          position[1] -= 1;
-        }
-        if (fighters[position[0]][position[1]] === "") {
-          if (position[1] === 0) {
-            position[1] = fighters[0].length - 1;
-          } else {
-            position[1] -= 1;
-          }
-          if (fighters[position[0]][position[1]] === "") {
-            position[1] -= 1;
-          }
-        }
-        hoveredArr.push(fighters[position[0]][position[1]]);
-        break;
-      case "right":
-        if (position[1] === fighters[0].length - 1) {
-          position[1] = 0;
-        } else {
-          position[1] += 1;
-        }
-        if (fighters[position[0]][position[1]] === "") {
-          if (position[1] === fighters[0].length - 1) {
-            position[1] = 0;
-          } else {
-            position[1] += 1;
-          }
-          if (fighters[position[0]][position[1]] === "") {
-            position[1] += 1;
-          }
-        }
-        hoveredArr.push(fighters[position[0]][position[1]]);
-        break;
-
-      default:
-        break;
+export function longestRepetition(text: string): [string, number] {
+  // Implement me! :)
+  let letter = "";
+  let total = 0;
+  let max: [string, number] = [letter, total];
+  for (const ltr of text.split("")) {
+    if (letter === ltr.toLowerCase()) {
+      total += 1;
+    }
+    if (max[1] < total) {
+      max = [letter, total];
+    }
+    if (ltr.toLowerCase() !== letter) {
+      letter = ltr.toLowerCase();
+      total = 1;
     }
   }
-
-  return hoveredArr;
+  return max;
 }
-let fighters = [
-  ["", "Ryu", "E.Honda", "Blanka", "Guile", ""],
-  ["Balrog", "Ken", "Chun Li", "Zangief", "Dhalsim", "Sagat"],
-  ["Vega", "T.Hawk", "Fei Long", "Deejay", "Cammy", "M.Bison"],
-];
-let initial_position: [number, number] = [1, 0];
-let moves = ["down", "down", "down", "down"];
-// console.log(superStreetFighterSelection(fighters, initial_position, moves), [
-//   "Vega",
-//   "Vega",
-//   "Vega",
-//   "Vega",
-// ]);
 
-// fighters = [
-//   ["", "Ryu", "E.Honda", "Blanka", "Guile", ""],
-//   ["Balrog", "Ken", "Chun Li", "Zangief", "Dhalsim", "Sagat"],
-//   ["Vega", "T.Hawk", "Fei Long", "Deejay", "Cammy", "M.Bison"],
-// ];
-// initial_position = [1, 0];
-// moves = ["up"];
-// console.log(superStreetFighterSelection(fighters, initial_position, moves), [
-//   "Balrog",
-// ]);
-
-// fighters = [
-//   ["", "Ryu", "E.Honda", "Cammy"],
-//   ["Balrog", "Ken", "Chun Li", ""],
-//   ["Vega", "", "Fei Long", "Balrog"],
-//   ["Blanka", "Guile", "", "Chun Li"],
-//   ["M.Bison", "Zangief", "Dhalsim", "Sagat"],
-//   ["Deejay", "Cammy", "", "T.Hawk"],
-// ];
-// initial_position = [0, 3];
-// moves = [
-//   "left",
-//   "left",
-//   "down",
-//   "right",
-//   "right",
-//   "right",
-//   "right",
-//   "down",
-//   "left",
-//   "left",
-//   "left",
-//   "left",
-//   "down",
-//   "right",
-//   "right",
-//   "down",
-//   "right",
-//   "right",
-//   "right",
-//   "down",
-//   "left",
-//   "left",
-//   "left",
-//   "down",
-//   "left",
-//   "left",
-//   "left",
-// ];
-// console.log(superStreetFighterSelection(fighters, initial_position, moves), []);
-// fighters = [
-//   ["", "Ryu", "E.Honda", "Cammy", "Blanka", "Guile", "", "Chun Li"],
-//   ["Balrog", "Ken", "Chun Li", "", "M.Bison", "Zangief", "Dhalsim", "Sagat"],
-//   ["Vega", "", "Fei Long", "Balrog", "Deejay", "Cammy", "", "T.Hawk"],
-// ];
-// initial_position = [0, 3];
-// moves = [
-//   "down",
-//   "right",
-//   "right",
-//   "right",
-//   "down",
-//   "left",
-//   "left",
-//   "down",
-//   "right",
-//   "right",
-//   "right",
-//   "up",
-// ];
-// console.log(superStreetFighterSelection(fighters, initial_position, moves), []);
-fighters = [
-  ["", "Ryu", "E.Honda", "Cammy"],
-  ["Balrog", "Ken", "Chun Li", ""],
-  ["Vega", "", "Fei Long", "Balrog"],
-  ["Blanka", "Guile", "", "Chun Li"],
-  ["M.Bison", "Zangief", "Dhalsim", "Sagat"],
-  ["Deejay", "Cammy", "", "T.Hawk"],
-];
-initial_position = [3, 1];
-moves = [
-  "up",
-  "left",
-  "left",
-  "down",
-  "right",
-  "right",
-  "up",
-  "right",
-  "right",
-  "left",
-  "left",
-  "down",
-  "up",
-  "down",
-  "up",
-  "up",
-  "down",
-  "left",
-  "left",
-  "left",
-  "left",
-  "up",
-  "right",
-  "left",
-];
-
-console.log(superStreetFighterSelection(fighters, initial_position, moves), []);
-fighters = [
-  ["", "Ryu", "E.Honda", "Cammy"],
-  ["Balrog", "Ken", "Chun Li", ""],
-  ["Vega", "", "Fei Long", "Balrog"],
-  ["Blanka", "Guile", "", "Chun Li"],
-  ["M.Bison", "Zangief", "Dhalsim", "Sagat"],
-  ["Deejay", "Cammy", "", "T.Hawk"],
-];
-initial_position = [3, 1];
-moves = [
-  "down",
-  "left",
-  "left",
-  "up",
-  "down",
-  "up",
-  "up",
-  "left",
-  "up",
-  "up",
-  "right",
-  "up",
-  "down",
-  "left",
-  "left",
-  "left",
-  "left",
-  "down",
-  "down",
-  "left",
-  "up",
-  "down",
-  "up",
-  "right",
-  "down",
-  "right",
-  "left",
-  "down",
-  "up",
-  "left",
-];
-console.log(superStreetFighterSelection(fighters, initial_position, moves), []);
+console.log(longestRepetition("aaaabb"), ["a", 4]);
+console.log(longestRepetition("bbbaaabaaaa"), ["a", 4]);
+console.log(longestRepetition("cbdeuuu900"), ["u", 3]);
+console.log(longestRepetition("abbbbb"), ["b", 5]);
+console.log(longestRepetition("aabb"), ["a", 2]);
+console.log(longestRepetition("ba"), ["b", 1]);
+console.log(longestRepetition(""), ["", 0]);
