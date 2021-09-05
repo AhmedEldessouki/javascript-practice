@@ -1,22 +1,49 @@
-function moveZeros(arr = '') {
-  function twistIt(str = '') {
-    return str.split('').map((a, i, arr) => arr[arr.length - i - 1]).join('')
+function multiply(value, times) {
+  if (value === null) return null;
+  if (typeof times !== "number" || isNaN(times)) throw new Error("");
+
+  function checkTimes(n) {
+    if (n < 0 || times % 1 !== 0) {
+      throw new Error("");
+    }
   }
-  return arr.split(' ').map(item => twistIt(item)).join(' ')
-}
 
-console.log(moveZeros("double  spaces"), "double  spaces", '==>', "elbuod  secaps")
-console.log(moveZeros("double  spaces"), "double  spaces", '==>', "elbuod  secaps")
-console.log(moveZeros("double  spaces"), "double  spaces", '==>', "elbuod  secaps")
-
-function manhattanDistance(arr0, arr1) {
-  function fn(params) {
-
-    return Math.abs(params)
+  switch (typeof value) {
+    case "number":
+      if (times > Number.MAX_VALUE) {
+        throw new Error("");
+      }
+      return value * times;
+    case "string":
+      checkTimes(times);
+      return times > 0 ? value.repeat(times) : ``;
+    case "object":
+      checkTimes(times);
+      return times > 0 ? Array(times).fill(value) : [];
+    case "function":
+      if (times === 0) return;
+      checkTimes(times);
+      return function () {
+        for (var i = 0; i < times; i++) {
+          value.apply(this, arguments);
+        }
+      };
+    default:
+      return value;
   }
-  return (fn(arr0[0] - arr1[0]) + fn(arr0[1] - arr1[1]))
 }
-
-console.log(manhattanDistance([1, 1], [1, 1]), '=> returns 0')
-console.log(manhattanDistance([5, 4], [3, 2]), '=> returns 4')
-console.log(manhattanDistance([1, 1], [0, 3]), '=> returns 3')
+console.log(function func() {
+  if (valid) {
+    console.log("still valid, original called");
+    hits++;
+    if (this !== context) {
+      Test.expect(false, "Incorrect context.");
+      valid = false;
+    } else if (
+      Test.inspect(Array.prototype.slice.call(arguments, 0)) === args
+    ) {
+      Test.expect(false, "Incorrect arguments.");
+      valid = false;
+    }
+  }
+}, 222); // 4
