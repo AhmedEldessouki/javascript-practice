@@ -1,27 +1,54 @@
-export function longestRepetition(text: string): [string, number] {
+export function anagrams(word: string, words: string[]): string[] {
   // Implement me! :)
-  let letter = "";
-  let total = 0;
-  let max: [string, number] = [letter, total];
-  for (const ltr of text.split("")) {
-    if (letter === ltr.toLowerCase()) {
-      total += 1;
-    }
-    if (max[1] < total) {
-      max = [letter, total];
-    }
-    if (ltr.toLowerCase() !== letter) {
-      letter = ltr.toLowerCase();
-      total = 1;
+  const found = [];
+  for (const text of words) {
+    let allMatches = true;
+    if (text.length === word.length) {
+      for (let i = 0; i < word.length; i++) {
+        if (word.indexOf(text[i]) < 0 || text.indexOf(word[i]) < 0) {
+          allMatches = false;
+          break;
+        }
+      }
+      if (allMatches) found.push(text);
     }
   }
-  return max;
+  return found;
 }
-
-console.log(longestRepetition("aaaabb"), ["a", 4]);
-console.log(longestRepetition("bbbaaabaaaa"), ["a", 4]);
-console.log(longestRepetition("cbdeuuu900"), ["u", 3]);
-console.log(longestRepetition("abbbbb"), ["b", 5]);
-console.log(longestRepetition("aabb"), ["a", 2]);
-console.log(longestRepetition("ba"), ["b", 1]);
-console.log(longestRepetition(""), ["", 0]);
+// .reduce((acc: string[], text) => {
+//   let res = true;
+//   textArr.forEach((letter) => {
+//     if (res) {
+//       res = !!text.match(letter);
+//     }
+//   });
+//   if (res) {
+//     acc.push(word);
+//   }
+//   return acc;
+// }, []);
+console.log(anagrams("abba", ["aabb", "abcd", "bbaa", "dada"]), [
+  "aabb",
+  "bbaa",
+]);
+console.log(anagrams("racer", ["crazer", "carer", "racar", "caers", "racer"]), [
+  "carer",
+  "racer",
+]);
+console.log(anagrams("laser", ["lazing", "lazy", "lacer"]), []);
+console.log(
+  anagrams("abba", [
+    "aabb",
+    "abab",
+    "abbaa",
+    "abbab",
+    "abbba",
+    "abcd",
+    "baaab",
+    "baab",
+    "baba",
+    "babaa",
+    "bbaa",
+  ]),
+  []
+);
