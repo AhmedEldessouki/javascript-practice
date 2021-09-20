@@ -1,58 +1,12 @@
-"use strict";
-exports.__esModule = true;
-exports.anagrams = void 0;
-function anagrams(word, words) {
-    // Implement me! :)
-    var found = [];
-    for (var _i = 0, words_1 = words; _i < words_1.length; _i++) {
-        var text = words_1[_i];
-        var allMatches = true;
-        console.log(text.length, word.length);
-        if (text.length === word.length) {
-            for (var i = 0; i < word.length; i++) {
-                if (word.indexOf(text[i]) < 0 || text.indexOf(word[i]) < 0) {
-                    allMatches = false;
-                    break;
-                }
-            }
-            if (allMatches)
-                found.push(text);
-        }
-    }
-    return found;
+function domainName(url) {
+    //your code here
+    if (url === void 0) { url = ""; }
+    return url.replace(/www.|http:\/\/|https:\/\//gi, "").split(".")[0];
 }
-exports.anagrams = anagrams;
-// .reduce((acc: string[], text) => {
-//   let res = true;
-//   textArr.forEach((letter) => {
-//     if (res) {
-//       res = !!text.match(letter);
-//     }
-//   });
-//   if (res) {
-//     acc.push(word);
-//   }
-//   return acc;
-// }, []);
-console.log(anagrams("abba", ["aabb", "abcd", "bbaa", "dada"]), [
-    "aabb",
-    "bbaa",
-]);
-console.log(anagrams("racer", ["crazer", "carer", "racar", "caers", "racer"]), [
-    "carer",
-    "racer",
-]);
-console.log(anagrams("laser", ["lazing", "lazy", "lacer"]), []);
-console.log(anagrams("abba", [
-    "aabb",
-    "abab",
-    "abbaa",
-    "abbab",
-    "abbba",
-    "abcd",
-    "baaab",
-    "baab",
-    "baba",
-    "babaa",
-    "bbaa",
-]), []);
+console.log(domainName("http://google.com"), "google");
+console.log(domainName("http://google.co.jp"), "google");
+console.log(domainName("www.xakep.ru"), "xakep");
+console.log(domainName("https://youtube.com"), "youtube");
+console.log(domainName("https://youtube.com"), "youtube");
+console.log(domainName("https://www.codewars.com/kata/"), "youtube");
+console.log(domainName("https://www.4akn27s4apz4bcdg-wgan7l36.biz/index.php"), "youtube");

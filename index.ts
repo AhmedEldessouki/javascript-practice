@@ -1,54 +1,16 @@
-export function anagrams(word: string, words: string[]): string[] {
-  // Implement me! :)
-  const found = [];
-  for (const text of words) {
-    let allMatches = true;
-    if (text.length === word.length) {
-      for (let i = 0; i < word.length; i++) {
-        if (word.indexOf(text[i]) < 0 || text.indexOf(word[i]) < 0) {
-          allMatches = false;
-          break;
-        }
-      }
-      if (allMatches) found.push(text);
-    }
-  }
-  return found;
+function domainName(url = ""): string {
+  //your code here
+
+  return url.replace(/www.|http:\/\/|https:\/\//gi, "").split(".")[0];
 }
-// .reduce((acc: string[], text) => {
-//   let res = true;
-//   textArr.forEach((letter) => {
-//     if (res) {
-//       res = !!text.match(letter);
-//     }
-//   });
-//   if (res) {
-//     acc.push(word);
-//   }
-//   return acc;
-// }, []);
-console.log(anagrams("abba", ["aabb", "abcd", "bbaa", "dada"]), [
-  "aabb",
-  "bbaa",
-]);
-console.log(anagrams("racer", ["crazer", "carer", "racar", "caers", "racer"]), [
-  "carer",
-  "racer",
-]);
-console.log(anagrams("laser", ["lazing", "lazy", "lacer"]), []);
+
+console.log(domainName("http://google.com"), "google");
+console.log(domainName("http://google.co.jp"), "google");
+console.log(domainName("www.xakep.ru"), "xakep");
+console.log(domainName("https://youtube.com"), "youtube");
+console.log(domainName("https://youtube.com"), "youtube");
+console.log(domainName("https://www.codewars.com/kata/"), "youtube");
 console.log(
-  anagrams("abba", [
-    "aabb",
-    "abab",
-    "abbaa",
-    "abbab",
-    "abbba",
-    "abcd",
-    "baaab",
-    "baab",
-    "baba",
-    "babaa",
-    "bbaa",
-  ]),
-  []
+  domainName("https://www.4akn27s4apz4bcdg-wgan7l36.biz/index.php"),
+  "youtube"
 );
