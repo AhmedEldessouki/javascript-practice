@@ -1,24 +1,33 @@
-function feb(num, memo) {
-    if (memo === void 0) { memo = {}; }
-    if (num <= 2)
-        return 1;
-    if (num in memo)
-        return memo[num];
-    memo[num] = feb(num - 1, memo) + feb(num - 2, memo);
-    return memo[num];
-}
-function feb2(n) {
-    var arr = [0, 1, 1];
-    for (var i = 2; i < n + 1; i++) {
-        arr[i] = arr[i - 1] + arr[i - 2];
+function solution(numbers) {
+    var max = Math.max.apply(Math, numbers);
+    var min = Math.min.apply(Math, numbers);
+    if (min === max)
+        return min * numbers.length;
+    for (var i = numbers.length - 1; i > -1; i--) {
+        if (min < numbers[i]) {
+            numbers[i] -= min;
+        }
+        for (var j = i - 1; j > -1; j--) {
+            if (min < numbers[j]) {
+                numbers[j] -= min;
+            }
+            if (numbers[j] > numbers[i]) {
+                numbers[j] -= numbers[i];
+            }
+            if (numbers[j] < numbers[i]) {
+                numbers[i] -= numbers[j];
+            }
+        }
     }
-    return arr.reduce(function (acc, num) { return (acc += num * 4); }, 0);
+    console.log(min, max, numbers.length, numbers);
+    return solution(numbers);
 }
-console.log(feb(1), feb2(1));
-console.log(feb(2), feb2(2));
-console.log(feb(5), feb2(5));
-console.log(feb(6), feb2(6));
-console.log(feb(8), feb2(8));
-console.log(feb(39), feb2(39));
-console.log(feb2(20), 114624);
-console.log(feb2(30), 14098308);
+console.log(solution([6, 9, 21]), 9);
+console.log(solution([
+    4718134032, 6102933513, 10220829828, 11898348297, 2045581593, 8138629113,
+    11428207908, 11120045712, 13309763913, 13590257028, 505940553, 943498113,
+    412754832, 7965010017, 6722533737, 6922300992, 1097930193, 203628057,
+    539108352, 1387314852, 7793262825, 1959006033, 12163632192, 8270071872,
+    6370323300, 1146541200, 10417379748, 6762253200, 3094491300, 14102515257,
+    2729236032, 7836024132, 8446966800, 9881371737, 10916944128, 11069094825,
+]), 2105892);
