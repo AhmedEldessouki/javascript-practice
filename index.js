@@ -1,64 +1,143 @@
-// const gcd = (a:number,b:number):number=>a?gcd(b%a,a):b
-// function solution(numbers:number[]) {
-//   return numbers.reduce(gcd)*numbers.length
-// }
-function solution(numbers) {
-    numbers.sort(function (a, b) { return a - b; });
-    var len = numbers.length;
-    if (numbers[0] === numbers[len - 1])
-        return numbers[0] * len;
-    var min = numbers[0];
-    var i = len - 1;
-    while (i >= 0) {
-        if (numbers[i] > numbers[len - 1]) {
-            numbers[i] -= numbers[len - 1];
-            if (i !== 0) {
-                if (numbers[i] > numbers[i - 1]) {
-                    numbers[i] -= numbers[i - 1];
-                }
-                else if (numbers[i] < numbers[i - 1]) {
-                    numbers[i - 1] -= numbers[i];
-                }
-            }
-        }
-        else if (numbers[i] < numbers[len - 1]) {
-            numbers[len - 1] -= numbers[i];
-        }
-        if (numbers[i] > numbers[0]) {
-            numbers[i] -= numbers[0];
-        }
-        else if (numbers[i] < numbers[0]) {
-            numbers[0] -= numbers[i];
-        }
-        if (min > numbers[len - 1]) {
-            min = numbers[len - 1];
-        }
-        else if (min < numbers[len - 1]) {
-            min = numbers[i];
-        }
-        i--;
-    }
-    if (len > 3 && numbers.filter(function (num) { return num === numbers[0]; }).length > len / 10)
-        return numbers[0] * len;
-    return solution(numbers);
+var numbs = [
+    "",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "twenty",
+    "twenty-one",
+    "twenty-two",
+    "twenty-three",
+    "twenty-four",
+    "twenty-five",
+    "twenty-six",
+    "twenty-seven",
+    "twenty-eight",
+    "twenty-nine",
+    "thirty",
+    "thirty-one",
+    "thirty-two",
+    "thirty-three",
+    "thirty-four",
+    "thirty-five",
+    "thirty-six",
+    "thirty-seven",
+    "thirty-eight",
+    "thirty-nine",
+    "forty",
+    "forty-one",
+    "forty-two",
+    "forty-three",
+    "forty-four",
+    "forty-five",
+    "forty-six",
+    "forty-seven",
+    "forty-eight",
+    "forty-nine",
+    "fifty",
+    "fifty-one",
+    "fifty-two",
+    "fifty-three",
+    "fifty-four",
+    "fifty-five",
+    "fifty-six",
+    "fifty-seven",
+    "fifty-eight",
+    "fifty-nine",
+    "sixty",
+    "sixty-one",
+    "sixty-two",
+    "sixty-three",
+    "sixty-four",
+    "sixty-five",
+    "sixty-six",
+    "sixty-seven",
+    "sixty-eight",
+    "sixty-nine",
+    "seventy",
+    "seventy-one",
+    "seventy-two",
+    "seventy-three",
+    "seventy-four",
+    "seventy-five",
+    "seventy-six",
+    "seventy-seven",
+    "seventy-eight",
+    "seventy-nine",
+    "eighty",
+    "eighty-one",
+    "eighty-two",
+    "eighty-three",
+    "eighty-four",
+    "eighty-five",
+    "eighty-six",
+    "eighty-seven",
+    "eighty-eight",
+    "eighty-nine",
+    "ninety",
+    "ninety-one",
+    "ninety-two",
+    "ninety-three",
+    "ninety-four",
+    "ninety-five",
+    "ninety-six",
+    "ninety-seven",
+    "ninety-eight",
+    "ninety-nine",
+];
+var numberizer = function (s) { return Number(s); };
+var hundred = function (n, m) {
+    if (n > 0 && m && m > 0)
+        return numbs[n] + " hundred " + numbs[m];
+    if (m && m > 0)
+        return "" + numbs[m];
+    if (n > 0)
+        return numbs[n] + " hundred";
+    return "";
+};
+var thousand = function (n) { return (n ? numbs[n] + " thousand" : "thousand"); };
+function number2words(n) {
+    // works for numbers between 0 and 999999
+    if (n <= 99)
+        return numbs[n];
+    var m = n.toString().split("");
+    var first = numberizer(m[0]);
+    var second = numberizer(m[m.length - 2] + m[m.length - 1]);
+    if (n <= 999)
+        return hundred(first, second);
+    first = numberizer(m[1]);
+    if (n <= 9999)
+        return thousand(numberizer(m[0])) + " " + hundred(first, second);
 }
-console.log(solution([6, 9, 21]), 9);
-console.log(solution([
-    4718134032, 6102933513, 10220829828, 11898348297, 2045581593, 8138629113,
-    11428207908, 11120045712, 13309763913, 13590257028, 505940553, 943498113,
-    412754832, 7965010017, 6722533737, 6922300992, 1097930193, 203628057,
-    539108352, 1387314852, 7793262825, 1959006033, 12163632192, 8270071872,
-    6370323300, 1146541200, 10417379748, 6762253200, 3094491300, 14102515257,
-    2729236032, 7836024132, 8446966800, 9881371737, 10916944128, 11069094825,
-]), 2105892);
-console.log(solution([
-    28561, 180625, 57121, 190969, 136900, 181476, 60516, 188356, 8464, 17689,
-    154449, 21025, 84681, 139876, 96721, 12996, 35344, 76176, 12100, 127449,
-    26569, 2500, 109561, 38809, 132496, 27889, 44521, 3249, 156816, 76729,
-    118336, 191844, 226576, 9604, 36481, 82944, 6724, 203401, 163216, 52441,
-    51076, 88209, 7225, 180625, 4624, 240100, 206116, 67600, 103684, 30276,
-    6561, 200704, 27556, 206116, 35721, 13689, 38809, 145161, 14400, 160801,
-    47961, 30276, 51076, 193600, 112896, 214369, 2704, 29929, 134689, 44521,
-    94249, 11025, 3721, 16129, 9025, 6889, 141376, 16641, 68644, 229441, 114921,
-    217156, 23409, 188356, 204304, 85264, 150544, 239121, 28224, 24649,
-]), 90);
+console.log(number2words(0), "zero");
+console.log(number2words(1), "one");
+console.log(number2words(8), "eight");
+console.log(number2words(10), "ten");
+console.log(number2words(19), "nineteen");
+console.log(number2words(20), "twenty");
+console.log(number2words(22), "twenty-two");
+console.log(number2words(54), "fifty-four");
+console.log(number2words(80), "eighty");
+console.log(number2words(98), "ninety-eight");
+console.log(number2words(100), "one hundred");
+console.log(number2words(301), "three hundred one");
+console.log(number2words(793), "seven hundred ninety-three");
+console.log(number2words(800), "eight hundred");
+console.log(number2words(650), "six hundred fifty");
+console.log(number2words(1000), "one thousand");
+console.log(number2words(1003), "one thousand three");
