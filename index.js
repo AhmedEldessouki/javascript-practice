@@ -1,155 +1,211 @@
-function check(arr) {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i][0] && arr[i].length > 3) {
-            for (var x = 0; x < arr[i].length - 3; x++) {
-                if (arr[i][x] !== "" &&
-                    arr[i][x] === arr[i][x + 1] &&
-                    arr[i][x + 1] === arr[i][x + 2] &&
-                    arr[i][x + 2] === arr[i][x + 3]) {
-                    return true;
-                }
-            }
+// Return the array of movements to execute to get out of the maze
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
         }
     }
-    return false;
-}
-function Connect4() {
-    this.isWinner = true;
-    // ? (1*7)*6
-    this.vertical = [];
-    // ? (1*6)*7
-    this.horizontal = [];
-    // ? (1*!)*12
-    this.diagonal = [];
-    this.player = 2;
-    this.movementMemo = {};
-    this.turn = 0;
-    if (this.isWinner) {
-        this.vertical = [];
-        for (var i = 0; i < 7; i++) {
-            this.vertical.push(["", "", "", "", "", ""]);
-            if (i < 6) {
-                this.horizontal.push(["", "", "", "", "", "", ""]);
-                this.diagonal.push([]);
-                this.diagonal.push([]);
-            }
-        }
-        this.isWinner = false;
-    }
-    this.verify = function () {
-        this.isWinner = check(this.horizontal);
-        if (this.isWinner)
-            return;
-        this.isWinner = check(this.vertical);
-        if (this.isWinner)
-            return;
-        if (this.turn < 8)
-            return;
-        console.log("check", this.diagonal, this.vertical, this.horizontal);
-        this.isWinner = check(this.diagonal);
-        if (this.isWinner)
-            return;
-    };
-}
-Connect4.prototype.play = function (col) {
-    // Code Here
-    if (this.isWinner)
-        return "Game has finished!";
-    if (this.movementMemo[col] === 6)
-        return "Column full!";
-    this.player = this.player === 1 ? 2 : 1;
-    if (!(col in Object(this.movementMemo))) {
-        this.movementMemo[col] = 0;
-    }
-    var difference = col - this.movementMemo[col];
-    if (-3 < difference && difference < 4) {
-        if (difference < 0) {
-            difference = this.diagonal.length - 1 + difference;
-        }
-        this.diagonal[difference].push("" + this.player);
-    }
-    difference = col + this.movementMemo[col];
-    if (2 < difference && difference < 9) {
-        this.diagonal[4 + difference].push(this.player);
-    }
-    this.vertical[col][this.movementMemo[col]] += this.player;
-    this.horizontal[this.movementMemo[col]][col] += this.player;
-    this.movementMemo[col] += 1;
-    this.turn += 1;
-    if (!this.isWinner && this.turn > 6) {
-        this.verify();
-    }
-    if (this.isWinner)
-        return "Player " + this.player + " wins!";
-    return "Player " + this.player + " has a turn";
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
-var game = new Connect4();
-console.log(game.play(3), "Player 1 has a turn");
-console.log(game.play(3), "Player 2 has a turn");
-console.log(game.play(2), "Player 1 has a turn");
-console.log(game.play(0), "Player 2 has a turn");
-console.log(game.play(2), "Player 1 has a turn");
-console.log(game.play(2), "Player 2 has a turn");
-console.log(game.play(0), "Player 1 has a turn");
-console.log(game.play(1), "Player 2 has a turn");
-console.log(game.play(1), "Player 1 has a turn");
-console.log(game.play(1), "Player 2 has a turn");
-console.log(game.play(0), "Player 1 has a turn");
-console.log(game.play(1), "Player 2 has a turn");
-console.log(game.play(0), "Player 1 has a turn");
-console.log(game.play(0), "Player 2 wins!");
-// game = new Connect4();
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(1), "Player 2 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(1), "Player 2 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(1), "Player 2 has a turn");
-// console.log(game.play(0), "Player 1 wins!");
-// game = new Connect4();
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(0), "Player 1 has a turn");
-// console.log(game.play(1), "Player 1 has a turn");
-// console.log(game.play(1), "Player 1 has a turn");
-// console.log(game.play(1), "Player 1 has a turn");
-// console.log(game.play(1), "Player 1 has a turn");
-// console.log(game.play(1), "Player 1 has a turn");
-// console.log(game.play(2), "Player 2 has a turn");
-// console.log(game.play(2), "Player 2 has a turn");
-// console.log(game.play(2), "Player 2 has a turn");
-// console.log(game.play(2), "Player 1 has a turn");
-// console.log(game.play(2), "Player 1 has a turn");
-// console.log(game.play(3), "Player 2 has a turn");
-// console.log(game.play(3), "Player 1 has a turn");
-// console.log(game.play(3), "Player 2 has a turn");
-// console.log(game.play(3), "Player 2 has a turn");
-// console.log(game.play(4), "Player 1 has a turn");
-// console.log(game.play(4), "Player 1 has a turn");
-// console.log(game.play(4), "Player 2 has a turn");
-// console.log(game.play(4), "Player 1 has a turn");
-// console.log(game.play(4), "Player 2 has a turn");
-// console.log(game.play(5), "Player 1 has a turn");
-// console.log(game.play(5), "Player 2 has a turn");
-// console.log(game.play(5), "Player 1 has a turn");
-// console.log(game.play(5), "Player 2 has a turn");
-// console.log(game.play(5), "Player 1 has a turn");
-// console.log(game.play(5), "Player 1 has a turn");
-// console.log(game.play(6), "Player 2 has a turn");
-// console.log(game.play(6), "Player 1 has a turn");
-// console.log(game.play(6), "Player 2 has a turn");
-// console.log(game.play(6), "Column full!");
-// console.log(game.play(6), "Column full!");
-// console.log(game.play(6), "Column full!");
-// game = new Connect4();
-// console.log(game.play(1), "Player 1 has a turn");
-// console.log(game.play(1), "Player 2 has a turn");
-// console.log(game.play(2), "Player 1 has a turn");
-// console.log(game.play(2), "Player 2 has a turn");
-// console.log(game.play(3), "Player 1 has a turn");
-// console.log(game.play(3), "Player 2 has a turn");
-// console.log(game.play(4), "Player 1 wins!");
-// console.log(game.play(4), "Game has finished!");
+// * 'F' move one step forward
+// * 'L' turn left
+// * 'R' turn right
+// * 'B' turn back
+// ? Note: 'L','R', and 'B'
+// ? ONLY perform a rotation and will not move your body
+function esc(maze, direction, current) {
+    if (direction === void 0) { direction = "<"; }
+    if (current === void 0) { current = [0, 0]; }
+    // Have a nice sleep ;)
+    var directions = ["^", "<", "v", ">"];
+    var starters = ["^", "<", "v", ">"];
+    var mazee = maze.map(function (str) { return str.split(""); });
+    for (var x = 0; x < maze.length; x++) {
+        var y = -1;
+        for (var i = 0; i < starters.length; i++) {
+            y = mazee[x].indexOf(starters[i]);
+            if (y > -1) {
+                current[0] = x;
+                current[1] = y;
+                break;
+            }
+        }
+        if (y > -1) {
+            current = [x, y];
+            direction = mazee[x][y];
+            break;
+        }
+    }
+    console.log(current, direction);
+    var movements = [];
+    var z = 0;
+    while (current !== [0, 0]) {
+        if (z > 2) {
+            console.log("here", mazee.map(function (item) { return item.join(""); }), current, direction);
+            return movements;
+        }
+        if (direction === "^") {
+            mazee[current[0]][current[1]] = ".";
+            if (current[0] - 1 >= 0 && mazee[current[0] - 1][current[1]] === " ") {
+                current[0] -= 1;
+                movements.push("F");
+                z = 0;
+            }
+            else if (current[1] - 1 >= 0 &&
+                mazee[current[0]][current[1] - 1] === " ") {
+                current[1] -= 1;
+                direction = directions[1];
+                movements = __spreadArray(__spreadArray([], movements, true), ["L", "F"], false);
+            }
+            else if (current[1] + 1 < maze[0].length &&
+                mazee[current[0]][current[1] + 1] === " ") {
+                current[1] += 1;
+                direction = directions[3];
+                movements = __spreadArray(__spreadArray([], movements, true), ["R", "F"], false);
+                z = 0;
+            }
+            else if (current[0] + 1 < maze.length &&
+                mazee[current[0] + 1][current[1]] === " ") {
+                current[0] += 1;
+                direction = directions[2];
+                movements = __spreadArray(__spreadArray([], movements, true), ["B", "F"], false);
+                z = 0;
+            }
+        }
+        if (direction === ">") {
+            mazee[current[0]][current[1]] = ".";
+            if (current[1] + 1 < maze[0].length &&
+                mazee[current[0]][current[1] + 1] === " ") {
+                current[1] += 1;
+                movements.push("F");
+                z = 0;
+            }
+            else if (current[0] - 1 >= 0 &&
+                mazee[current[0] - 1][current[1]] === " ") {
+                current[0] -= 1;
+                direction = directions[0];
+                movements = __spreadArray(__spreadArray([], movements, true), ["L", "F"], false);
+            }
+            else if (current[0] + 1 < maze.length &&
+                mazee[current[0] + 1][current[1]] === " ") {
+                current[0] += 1;
+                direction = directions[2];
+                movements = __spreadArray(__spreadArray([], movements, true), ["R", "F"], false);
+                z = 0;
+            }
+            else if (current[1] - 1 >= 0 &&
+                mazee[current[0]][current[1] - 1] === " ") {
+                current[1] -= 1;
+                direction = directions[1];
+                movements = __spreadArray(__spreadArray([], movements, true), ["B", "F"], false);
+                z = 0;
+            }
+        }
+        if (direction === "v") {
+            // ! ["^", "<", "v", ">"]
+            mazee[current[0]][current[1]] = ".";
+            if (current[0] + 1 < maze.length &&
+                mazee[current[0] + 1][current[1]] === " ") {
+                current[0] += 1;
+                movements.push("F");
+                z = 0;
+            }
+            else if (current[1] + 1 < maze[0].length &&
+                mazee[current[0]][current[1] + 1] === " ") {
+                current[1] += 1;
+                direction = directions[3];
+                movements = __spreadArray(__spreadArray([], movements, true), ["L", "F"], false);
+            }
+            else if (current[1] - 1 >= 0 &&
+                mazee[current[0]][current[1] - 1] === " ") {
+                current[1] -= 1;
+                direction = directions[2];
+                movements = __spreadArray(__spreadArray([], movements, true), ["R", "F"], false);
+                z = 0;
+            }
+            else if (current[0] - 1 >= 0 &&
+                mazee[current[0] - 1][current[1]] === " ") {
+                current[0] -= 1;
+                direction = directions[0];
+                movements = __spreadArray(__spreadArray([], movements, true), ["B", "F"], false);
+                z = 0;
+            }
+        }
+        if (direction === "<") {
+            // ! ["^", "<", "v", ">"]
+            mazee[current[0]][current[1]] = ".";
+            if (current[1] - 1 >= 0 && mazee[current[0]][current[1] - 1] === " ") {
+                current[1] -= 1;
+                movements.push("F");
+                z = 0;
+            }
+            else if (current[0] + 1 < maze.length &&
+                mazee[current[0] + 1][current[1]] === " ") {
+                current[0] += 1;
+                direction = directions[2];
+                movements = __spreadArray(__spreadArray([], movements, true), ["L", "F"], false);
+            }
+            else if (current[0] - 1 >= 0 &&
+                mazee[current[0] - 1][current[1]] === " ") {
+                current[0] -= 1;
+                direction = directions[0];
+                movements = __spreadArray(__spreadArray([], movements, true), ["R", "F"], false);
+                z = 0;
+            }
+            else if (current[1] + 1 < maze[0].length &&
+                mazee[current[0]][current[1] + 1] === " ") {
+                current[1] += 1;
+                direction = directions[3];
+                movements = __spreadArray(__spreadArray([], movements, true), ["B", "F"], false);
+                z = 0;
+            }
+        }
+        z++;
+    }
+    return movements;
+}
+var basicMazes = [];
+basicMazes = ["# #", " > ", "# #"];
+console.log(esc(basicMazes));
+basicMazes = ["##########", "#>       #", "######## #"];
+console.log(esc(basicMazes));
+basicMazes = ["# ########", "#       >#", "##########"];
+console.log(esc(basicMazes));
+basicMazes = ["####### #", "#>#   # #", "#   #   #", "#########"];
+console.log(esc(basicMazes));
+basicMazes = [
+    "##########",
+    "#        #",
+    "#  ##### #",
+    "#  #   # #",
+    "#  #^# # #",
+    "#  ### # #",
+    "#      # #",
+    "######## #",
+];
+console.log(esc(basicMazes));
+basicMazes = [
+    "#########################################",
+    "#<    #       #     #         # #   #   #",
+    "##### # ##### # ### # # ##### # # # ### #",
+    "# #   #   #   #   #   # #     #   #   # #",
+    "# # # ### # ########### # ####### # # # #",
+    "#   #   # # #       #   # #   #   # #   #",
+    "####### # # # ##### # ### # # # #########",
+    "#   #     # #     # #   #   # # #       #",
+    "# # ####### ### ### ##### ### # ####### #",
+    "# #             #   #     #   #   #   # #",
+    "# ############### ### ##### ##### # # # #",
+    "#               #     #   #   #   # #   #",
+    "##### ####### # ######### # # # ### #####",
+    "#   # #   #   # #         # # # #       #",
+    "# # # # # # ### # # ####### # # ### ### #",
+    "# # #   # # #     #   #     # #     #   #",
+    "# # ##### # # ####### # ##### ####### # #",
+    "# #     # # # #   # # #     # #       # #",
+    "# ##### ### # ### # # ##### # # ### ### #",
+    "#     #     #     #   #     #   #   #    ",
+    "#########################################",
+];
+console.log(esc(basicMazes));
