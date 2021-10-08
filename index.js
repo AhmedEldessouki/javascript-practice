@@ -1,39 +1,28 @@
-var numberToPrice = function (number) {
-    if (isNaN(number))
-        return "NaN";
-    var dec = "";
-    if (number % 1 === 0) {
-        if (number <= 999)
-            return number.toFixed(2);
-        dec = ".00";
+"use strict";
+exports.__esModule = true;
+exports.dirReduce = void 0;
+function dirReduce(arr) {
+    var x = true;
+    var i = 0;
+    while (x) {
+        if (i + 1 < arr.length &&
+            ((arr[i] === "SOUTH" && arr[i + 1] === "NORTH") ||
+                (arr[i + 1] === "SOUTH" && arr[i] === "NORTH") ||
+                (arr[i] === "WEST" && arr[i + 1] === "EAST") ||
+                (arr[i + 1] === "WEST" && arr[i] === "EAST"))) {
+            arr.splice(i, 2);
+            console.log(arr);
+            i = 0;
+        }
+        else if (i === arr.length - 1 || i === arr.length) {
+            x = false;
+        }
+        else {
+            i++;
+        }
     }
-    var sign = number < 0 ? "-" : "";
-    return (sign +
-        Math.abs(number)
-            .toString()
-            .split(".")
-            .map(function (str, x) {
-            return x === 0
-                ? str
-                    .split("")
-                    .reverse()
-                    .map(function (st, i) {
-                    return (i + 1) % 3 === 0 && i < str.length - 1 ? "," + st : st;
-                })
-                    .reverse()
-                    .join("")
-                : str.length < 2
-                    ? str.padEnd(2, "0")
-                    : str.slice(0, 2);
-        })
-            .join(".") +
-        dec);
-};
-console.log(numberToPrice(1500.129), "1,500.12");
-console.log(numberToPrice(-5), "-5.00");
-console.log(numberToPrice(1000000.5), "1,000,000.50");
-console.log(numberToPrice(-100000.5), "-100,000.50");
-console.log(numberToPrice(100.5), "100.50");
-console.log(numberToPrice(245123215.0), "245,123,215.00");
-//@ts-expect-error
-console.log(numberToPrice("@"), "NaN");
+    return arr;
+}
+exports.dirReduce = dirReduce;
+console.log(dirReduce(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]), ["WEST"]);
+console.log(dirReduce(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH"]), []);
