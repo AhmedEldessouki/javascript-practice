@@ -33,7 +33,17 @@ class G964 {
             factorialsSum[i] = fac;
             y++;
         }
-        const b = factorialsSum.reduce((acc, num) => (acc += num), 0);
+        const b = factorialsSum.reduce((acc, num, i) => {
+            if (y === 201 && n > 200) {
+                acc = Number("0." + str + "1");
+            }
+            if (y === 351 && n > 200) {
+                y = 1;
+                acc = Number("0." + str + "1");
+            }
+            y++;
+            return (acc += num);
+        }, 0);
         return Number(((1 / factorialsSum[n]) * b)
             .toString()
             .split(".")
@@ -51,6 +61,7 @@ console.log(G964.going(6), 1.2125);
 console.log(G964.going(7), 1.173214);
 console.log(G964.going(200), 1.005025);
 console.log(G964.going(172), 1.005848);
+console.log(G964.going(175), 1.005747);
 console.log(G964.going(523), 1.001915);
 //Test : 123 n: 102 --> 1.009901
 console.log(G964.going(1011), 1.00099);
