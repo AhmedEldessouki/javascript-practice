@@ -1,547 +1,60 @@
 "use strict";
-function checker(maze, from) {
-    if (from[0] === 0) {
-        return true;
+var maxSequence = function (arr) {
+    // ...
+    if (arr.length <= 0)
+        return 0;
+    if (Math.max(...arr) < 0)
+        return 0;
+    function sumUp(ar) {
+        return ar.reduce((acc, num) => (acc += num), 0);
     }
-    else if (from[1] === 0) {
-        return true;
-    }
-    else if (from[0] === maze.length - 1) {
-        return true;
-    }
-    else if (from[1] === maze[0].length - 1) {
-        return true;
-    }
-    return false;
-}
-const esc = (solvedMaze) => {
-    //   solvedMaze=([...maze]);
-    function handlingMaze(direction = "<", directions = ["^", "<", "v", ">"], from, movements = [], memo = {}) {
-        let z = 0;
-        while (from !== [0, 0]) {
-            if (z > 3) {
-                if (checker(solvedMaze, from))
-                    return { from, movements, direction, maze: solvedMaze };
-                return false;
-            }
-            if (from[0] >= 0 &&
-                from[0] < solvedMaze.length &&
-                from[1] >= 0 &&
-                from[1] < solvedMaze[from[0]].length &&
-                direction === "^") {
-                if (solvedMaze[from[0]][from[1]] === " ") {
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                }
-                if (from[0] - 1 >= 0 && solvedMaze[from[0] - 1][from[1]] === " ") {
-                    from[0] -= 1;
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                    movements.push("F");
-                    z = 0;
-                    if (from[1] - 1 >= 0 && solvedMaze[from[0]][from[1] - 1] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[1], directions, [from[0], from[1] - 1], [...movements, "L", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[1] + 1 < solvedMaze[0].length &&
-                        solvedMaze[from[0]][from[1] + 1] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[3], directions, [from[0], from[1] + 1], [...movements, "R", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[0] + 1 < solvedMaze.length &&
-                        solvedMaze[from[0] + 1][from[1]] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[2], directions, [from[0] + 1, from[1]], [...movements, "B", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                }
-                else if (from[1] - 1 >= 0 &&
-                    solvedMaze[from[0]][from[1] - 1] === " ") {
-                    from[1] -= 1;
-                    direction = directions[1];
-                    movements = [...movements, "L", "F"];
-                }
-                else if (from[1] + 1 < solvedMaze[0].length &&
-                    solvedMaze[from[0]][from[1] + 1] === " ") {
-                    from[1] += 1;
-                    direction = directions[3];
-                    movements = [...movements, "R", "F"];
-                    z = 0;
-                }
-                else if (from[0] + 1 < solvedMaze.length &&
-                    solvedMaze[from[0] + 1][from[1]] === " ") {
-                    from[0] += 1;
-                    direction = directions[2];
-                    movements = [...movements, "B", "F"];
-                    z = 0;
-                }
-            }
-            if (from[0] >= 0 &&
-                from[0] < solvedMaze.length &&
-                from[1] >= 0 &&
-                from[1] < solvedMaze[from[0]].length &&
-                direction === ">") {
-                if (solvedMaze[from[0]][from[1]] === " ") {
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                }
-                if (from[1] + 1 < solvedMaze[0].length &&
-                    solvedMaze[from[0]][from[1] + 1] === " ") {
-                    from[1] += 1;
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                    movements.push("F");
-                    z = 0;
-                    if (from[0] - 1 >= 0 && solvedMaze[from[0] - 1][from[1]] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[0], directions, [from[0] - 1, from[1]], [...movements, "L", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[0] + 1 < solvedMaze.length &&
-                        solvedMaze[from[0] + 1][from[1]] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[2], directions, [from[0] + 1, from[1]], [...movements, "R", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[1] - 1 >= 0 && solvedMaze[from[0]][from[1] - 1] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[1], directions, [from[0], from[1] - 1], [...movements, "B", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                }
-                else if (from[0] - 1 >= 0 &&
-                    solvedMaze[from[0] - 1][from[1]] === " ") {
-                    from[0] -= 1;
-                    direction = directions[0];
-                    movements = [...movements, "L", "F"];
-                }
-                else if (from[0] + 1 < solvedMaze.length &&
-                    solvedMaze[from[0] + 1][from[1]] === " ") {
-                    from[0] += 1;
-                    direction = directions[2];
-                    movements = [...movements, "R", "F"];
-                    z = 0;
-                }
-                else if (from[1] - 1 >= 0 &&
-                    solvedMaze[from[0]][from[1] - 1] === " ") {
-                    from[1] -= 1;
-                    direction = directions[1];
-                    movements = [...movements, "B", "F"];
-                    z = 0;
-                }
-            }
-            if (from[0] >= 0 &&
-                from[0] < solvedMaze.length &&
-                from[1] >= 0 &&
-                from[1] < solvedMaze[from[0]].length &&
-                direction === "v") {
-                // ! ["^", "<", "v", ">"]
-                if (solvedMaze[from[0]][from[1]] === " ") {
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                }
-                if (from[0] + 1 < solvedMaze.length &&
-                    solvedMaze[from[0] + 1][from[1]] === " ") {
-                    from[0] += 1;
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                    movements.push("F");
-                    z = 0;
-                    if (from[1] + 1 < solvedMaze[0].length &&
-                        solvedMaze[from[0]][from[1] + 1] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[3], directions, [from[0], from[1] + 1], [...movements, "L", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[1] - 1 >= 0 && solvedMaze[from[0]][from[1] - 1] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[1], directions, [from[0], from[1] - 1], [...movements, "R", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[0] - 1 >= 0 && solvedMaze[from[0] - 1][from[1]] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[0], directions, [from[0] - 1, from[1]], [...movements, "B", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                }
-                else if (from[1] + 1 < solvedMaze[0].length &&
-                    solvedMaze[from[0]][from[1] + 1] === " ") {
-                    from[1] += 1;
-                    direction = directions[3];
-                    movements = [...movements, "L", "F"];
-                }
-                else if (from[1] - 1 >= 0 &&
-                    solvedMaze[from[0]][from[1] - 1] === " ") {
-                    from[1] -= 1;
-                    direction = directions[1];
-                    movements = [...movements, "R", "F"];
-                    z = 0;
-                }
-                else if (from[0] - 1 >= 0 &&
-                    solvedMaze[from[0] - 1][from[1]] === " ") {
-                    from[0] -= 1;
-                    direction = directions[0];
-                    movements = [...movements, "B", "F"];
-                    z = 0;
-                }
-            }
-            if (from[0] >= 0 &&
-                from[0] < solvedMaze.length &&
-                from[1] >= 0 &&
-                from[1] < solvedMaze[from[0]].length &&
-                direction === "<") {
-                // ! ["^", "<", "v", ">"]
-                if (solvedMaze[from[0]][from[1]] === " ") {
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                }
-                if (from[1] - 1 >= 0 && solvedMaze[from[0]][from[1] - 1] === " ") {
-                    from[1] -= 1;
-                    if (from[0] >= 0 &&
-                        from[0] < solvedMaze.length &&
-                        from[1] >= 0 &&
-                        from[1] < solvedMaze[from[0]].length) {
-                        solvedMaze[from[0]][from[1]] = direction;
-                        solvedMaze = [...solvedMaze];
-                    }
-                    movements.push("F");
-                    z = 0;
-                    if (from[0] + 1 < solvedMaze.length &&
-                        solvedMaze[from[0] + 1][from[1]] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[2], directions, [from[0] + 1, from[1]], [...movements, "L", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[0] - 1 >= 0 && solvedMaze[from[0] - 1][from[1]] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[0], directions, [from[0] - 1, from[1]], [...movements, "R", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                    if (from[1] + 1 < solvedMaze[0].length &&
-                        solvedMaze[from[0]][from[1] + 1] === " ") {
-                        if (!(JSON.stringify(solvedMaze) in memo)) {
-                            const res = handlingMaze(directions[3], directions, [from[0], from[1] + 1], [...movements, "B", "F"], memo);
-                            if (res) {
-                                movements = res.movements;
-                                solvedMaze = [...res.maze];
-                                if (from[0] >= 0 &&
-                                    from[0] < solvedMaze.length &&
-                                    from[1] >= 0 &&
-                                    from[1] < solvedMaze[from[0]].length) {
-                                    solvedMaze[from[0]][from[1]] = direction;
-                                    solvedMaze = [...solvedMaze];
-                                }
-                                memo[JSON.stringify(solvedMaze)] = movements;
-                                direction = res.direction;
-                                from = res.from;
-                            }
-                            else {
-                                memo[JSON.stringify(solvedMaze)] = false;
-                            }
-                        }
-                    }
-                }
-                else if (from[0] + 1 < solvedMaze.length &&
-                    solvedMaze[from[0] + 1][from[1]] === " ") {
-                    from[0] += 1;
-                    direction = directions[2];
-                    movements = [...movements, "L", "F"];
-                }
-                else if (from[0] - 1 >= 0 &&
-                    solvedMaze[from[0] - 1][from[1]] === " ") {
-                    from[0] -= 1;
-                    direction = directions[0];
-                    movements = [...movements, "R", "F"];
-                    z = 0;
-                }
-                else if (from[1] + 1 < solvedMaze[0].length &&
-                    solvedMaze[from[0]][from[1] + 1] === " ") {
-                    from[1] += 1;
-                    direction = directions[3];
-                    movements = [...movements, "B", "F"];
-                    z = 0;
-                }
-            }
-            z++;
-        }
-        return handlingMaze(direction, directions, from, movements, memo);
-    }
-    let direction = "<";
-    let from = [0, 0];
-    let movements = [];
-    let memo = {};
-    // Have a nice sleep ;)
-    const directions = ["^", "<", "v", ">"];
-    for (let x = 0; x < solvedMaze.length; x++) {
-        let y = -1;
-        for (let i = 0; i < directions.length; i++) {
-            y = solvedMaze[x].indexOf(directions[i]);
-            if (y > -1) {
-                from[0] = x;
-                from[1] = y;
-                break;
+    if (Math.min(...arr) >= 0)
+        return sumUp(arr);
+    const memo = {};
+    let x = 1;
+    while (x < arr.length) {
+        for (let i = 0; i < arr.length; i++) {
+            const els = [...arr].splice(i, x);
+            const key = els.join(",");
+            if (!(key in memo)) {
+                memo[key] = sumUp(els);
             }
         }
-        if (y > -1) {
-            from = [x, y];
-            direction = solvedMaze[x][y];
-            break;
-        }
+        x++;
     }
-    let z = 0;
-    while (from !== [0, 0]) {
-        if (!(JSON.stringify(solvedMaze) in memo)) {
-            const res = handlingMaze(direction, directions, [from[0], from[1]], [...movements], memo);
-            if (res) {
-                movements = res.movements;
-                solvedMaze = res.maze;
-                direction = res.direction;
-                from = res.from;
-                if (from[0] >= 0 &&
-                    from[0] < solvedMaze.length &&
-                    from[1] >= 0 &&
-                    from[1] < solvedMaze[from[0]].length)
-                    solvedMaze[from[0]][from[1]] = direction;
-                memo[JSON.stringify(solvedMaze)] = movements;
-                if (checker(res.maze, res.from)) {
-                    return movements;
-                }
-            }
-            else {
-                memo[JSON.stringify(solvedMaze)] = true;
-            }
-        }
-        if (z > 3) {
-            if (checker(solvedMaze, from)) {
-                return movements;
-            }
-            return;
-        }
-        z++;
-    }
-    return movements;
+    const key = arr.join(",");
+    memo[key] = sumUp(arr);
+    // console.log(memo);
+    return Math.max(...Object.values(memo));
 };
+// console.log(maxSequence([]), 0);
+// console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]), 6);
+// console.log(maxSequence([2, 1, 3, 4, 1, 2, 1, 5, 4]), 23);
+// console.log(maxSequence([-2, -1, -3, -4, -1, -2, -1, -5, -4]), 0);
+console.log(maxSequence([
+    7, 4, 11, -11, 39, 36, 10, -6, 37, -10, -32, 44, -26, -34, 43, 43,
+]), 155);
+console.log(maxSequence([
+    -18, -40, -26, -13, -24, 44, 44, -18, -42, -17, -3, -9, 27, 30, 33, -46, 39,
+    -45, 48, 44, 35, -42, 41, 8, 10, 7, -31, -2, 16, 30, 45, 16, -13, 13, 26,
+]), 289);
+console.log(maxSequence([-43, 19, 15, 7, 23, 31]), 95);
+console.log(maxSequence([
+    -24, -46, -18, -29, 50, -19, 40, 48, -46, 36, -16, -25, 3, -20, 32, -6, 29,
+    30, -22, -6, 5, -38, -31, -16, 0, -37, -14, 43, 12, -39, -3, 47, 4, -43, 37,
+    35, 24, 28, -36, -27, 29, 18, 47, -28, 29, 12, -4, -18, 50, -34, -10, 21,
+    15, 13,
+]), 222);
+console.log(maxSequence([-20, 45]), 45);
+console.log(maxSequence([
+    10, 5, 19, 6, 35, 41, -9, 28, 0, 0, -13, -37, -34, 47, 13, 18, -28, 4, -43,
+    -2, 27, -32, 34, -29, 11, 30, 41, -7, 12, -41, 5, -28, 48, 14, -2, 29, -48,
+    48, -5, 18, 37, 43, 30, -27, 2, 32, 30,
+]), 332);
+console.log(maxSequence([-3, 27, 25, -37, 36, 28]), 79);
+console.log(maxSequence([
+    9, 47, 34, -16, 21, -11, 48, 38, -46, 17, 17, 50, 22, 3, 43, -13, 35, -38,
+    50, 6, 1, -44, -6, -39, -26, -42, 45, -5, 20, -37, 43, 30, 7, 17, -43, -22,
+    35, 14, 0, -0, 12, -8, -19, -5, 18, -13, -3, 9, -23, 28, -19, 35, 39, -45,
+    -36, 39, 12, 3, 36, 40, 6, -13,
+]), 370);
