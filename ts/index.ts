@@ -1,78 +1,102 @@
-export function sumPairs(ints: number[], s: number): [number, number] | void {
-  const memo: { [key: number]: boolean } = {};
-  for (let i = 0; i < ints.length; i++) {
-    if (!(ints[i] in memo)) {
-      memo[ints[i]] = true;
-      for (let x = i + 1; x < ints.length; x++) {
-        const sum = ints[i] + ints[x];
-        const sum2 = ints[x] + ints[x + 1];
-        if (sum2 === s) {
-          return [ints[x], ints[x + 1]];
+export function nextBigger(n: number): number {
+  // your code here
+
+  let shallContinue = true;
+  let last = 0;
+
+  function numCount() {
+    const counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    n.toString()
+      .split("")
+      .forEach((num, i, arr) => {
+        const m = Number(num);
+        if (i === 0) {
+          last = m;
         }
-        if (sum === s) {
-          return [ints[i], ints[x]];
+        if (last < m) {
+          shallContinue = false;
+        } else {
+          last = m;
         }
-      }
+        counts[m] += 1;
+        if (arr.length - 1 === i) {
+          last = m;
+        }
+      });
+
+    return counts;
+  }
+  const memo = numCount();
+
+  if (shallContinue) return -1;
+
+  let historyMemo = [...memo];
+
+  last = Number(n.toString().split("").pop());
+
+  while (!shallContinue) {
+    if (last === 9) {
+      last = 0;
+    } else {
+      last += 1;
+    }
+    n += 1;
+    if (last === 0) {
+      historyMemo = numCount();
+    } else if (last === 1) {
+      historyMemo[0] = historyMemo[0] - 1;
+      historyMemo[1] = historyMemo[1] + 1;
+    } else if (last === 2) {
+      historyMemo[1] = historyMemo[1] - 1;
+      historyMemo[2] = historyMemo[2] + 1;
+    } else if (last === 3) {
+      historyMemo[2] = historyMemo[2] - 1;
+      historyMemo[3] = historyMemo[3] + 1;
+    } else if (last === 4) {
+      historyMemo[3] = historyMemo[3] - 1;
+      historyMemo[4] = historyMemo[4] + 1;
+    } else if (last === 5) {
+      historyMemo[4] = historyMemo[4] - 1;
+      historyMemo[5] = historyMemo[5] + 1;
+    } else if (last === 6) {
+      historyMemo[5] = historyMemo[5] - 1;
+      historyMemo[6] = historyMemo[6] + 1;
+    } else if (last === 7) {
+      historyMemo[6] = historyMemo[6] - 1;
+      historyMemo[7] = historyMemo[7] + 1;
+    } else if (last === 8) {
+      historyMemo[7] = historyMemo[7] - 1;
+      historyMemo[8] = historyMemo[8] + 1;
+    } else if (last === 9) {
+      historyMemo[8] = historyMemo[8] - 1;
+      historyMemo[9] = historyMemo[9] + 1;
+    }
+    if (
+      memo[0] === historyMemo[0] &&
+      memo[1] === historyMemo[1] &&
+      memo[2] === historyMemo[2] &&
+      memo[3] === historyMemo[3] &&
+      memo[4] === historyMemo[4] &&
+      memo[5] === historyMemo[5] &&
+      memo[6] === historyMemo[6] &&
+      memo[7] === historyMemo[7] &&
+      memo[8] === historyMemo[8] &&
+      memo[9] === historyMemo[9]
+    ) {
+      return n;
     }
   }
-
-  return; // your code here...
+  return n;
 }
 
-const l1: number[] = [1, 4, 8, 7, 3, 15],
-  l2: number[] = [1, -2, 3, 0, -6, 1],
-  l3: number[] = [20, -13, 40],
-  l4: number[] = [1, 2, 3, 4, 1, 0],
-  l5: number[] = [10, 5, 2, 3, 7, 5],
-  l6: number[] = [4, -2, 3, 3, 4],
-  l7: number[] = [0, 2, 0],
-  l8: number[] = [5, 9, 13, -3],
-  l9: number[] = [10, 5, 2, 3, 7, 5];
-
-console.log(
-  sumPairs(l1, 8),
-  [1, 7],
-  "Basic: [" + l1 + "] should return [1, 7] for sum = 8"
-);
-console.log(
-  sumPairs(l2, -6),
-  [0, -6],
-  "Negatives: [" + l2 + "] should return [0, -6] for sum = -6"
-);
-console.log(
-  sumPairs(l3, -7),
-  undefined,
-  "No Match: [" + l3 + "] should return undefined for sum = -7"
-);
-console.log(
-  sumPairs(l4, 2),
-  [1, 1],
-  "First Match From Left: [" + l4 + "] should return [1, 1] for sum = 2 "
-);
-console.log(
-  sumPairs(l5, 10),
-  [3, 7],
-  "First Match From Left REDUX!: [" +
-    l5 +
-    "] should return [3, 7] for sum = 10 "
-);
-console.log(
-  sumPairs(l6, 8),
-  [4, 4],
-  "Duplicates: [" + l6 + "] should return [4, 4] for sum = 8"
-);
-console.log(
-  sumPairs(l7, 0),
-  [0, 0],
-  "Zeroes: [" + l7 + "] should return [0, 0] for sum = 0"
-);
-console.log(
-  sumPairs(l8, 10),
-  [13, -3],
-  "Subtraction: [" + l8 + "] should return [13, -3] for sum = 10"
-);
-console.log(
-  sumPairs(l9, 10),
-  [3, 7],
-  "Subtraction: [" + l9 + "] should return [ 3, 7 ] for sum = 10"
-);
+console.log(nextBigger(12), 21);
+console.log(nextBigger(513), 531);
+console.log(nextBigger(2017), 2071);
+console.log(nextBigger(414), 441);
+console.log(nextBigger(144), 414);
+console.log(nextBigger(123456789), 123456798);
+console.log(nextBigger(1234567890), 1234567908);
+console.log(nextBigger(9876543210), -1);
+console.log(nextBigger(9999999999), -1);
+console.log(nextBigger(59884848459853), 59884848483559);
+59884848459862;
