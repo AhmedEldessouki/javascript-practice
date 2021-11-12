@@ -14,14 +14,14 @@ export class G964 {
 
   public static comp(n: number): number {
     // your code
-    let lowerThanKCount = 0;
+    let lowerThanPreprocessor = 0;
     for (let i = 8; i <= n; i++) {
       this.u[i] = this.u[i - this.u[i - 1]] + this.u[i - this.u[i - 2]];
       if (this.u[i] < this.u[i - 1]) {
-        lowerThanKCount++;
+        lowerThanPreprocessor++;
       }
     }
-    return lowerThanKCount;
+    return lowerThanPreprocessor;
   }
 }
 
