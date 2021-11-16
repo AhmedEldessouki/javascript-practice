@@ -1,230 +1,125 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mixbonacci = void 0;
-function mixbonacci(pattern, length) {
-    // Implement me! :)
-    if (pattern.length === 0 || length === 0) {
-        return [];
-    }
-    const store = {
-        fib: {
-            bank: [0, 1, 1, 2, 3],
-            index: 0,
-        },
-        pad: {
-            bank: [1, 0, 0, 1, 0],
-            index: 0,
-        },
-        jac: {
-            bank: [0, 1, 1, 3, 5],
-            index: 0,
-        },
-        pel: {
-            bank: [0, 1, 2, 5, 12],
-            index: 0,
-        },
-        tri: {
-            bank: [0, 0, 1, 1, 2],
-            index: 0,
-        },
-        tet: {
-            bank: [0, 0, 0, 1, 1],
-            index: 0,
-        },
-    };
-    for (let i = 4; i < length; i++) {
-        store.fib.bank[i] = store.fib.bank[i - 1] + store.fib.bank[i - 2];
-        store.pad.bank[i] = store.pad.bank[i - 2] + store.pad.bank[i - 3];
-        store.jac.bank[i] = store.jac.bank[i - 1] + 2 * store.jac.bank[i - 2];
-        store.pel.bank[i] = 2 * store.pel.bank[i - 1] + store.pel.bank[i - 2];
-        store.tet.bank[i] =
-            store.tet.bank[i - 1] +
-                store.tet.bank[i - 2] +
-                store.tet.bank[i - 3] +
-                store.tet.bank[i - 4];
-        store.tri.bank[i] =
-            store.tri.bank[i - 1] + store.tri.bank[i - 2] + store.tri.bank[i - 3];
-    }
-    if (pattern.length === 1) {
-        return store[pattern[0]].bank;
-    }
-    const toBeReturned = [];
-    for (let a = 0; a < length;) {
-        for (let b = 0; b < pattern.length && a < length; a++, b++) {
-            const pat = pattern[b];
-            const val = store[pat].bank[store[pat].index];
-            store[pat].index += 1;
-            toBeReturned.push(val);
+exports.translate = void 0;
+function translate(speech, vocabulary) {
+    if (speech.length === 0)
+        return speech;
+    const speechArr = speech.split(" ");
+    const history = {};
+    function handleChanges() {
+        for (let index = 0; index < speechArr.length; index++) {
+            if (speechArr[index].search(/[*]/g) > -1) {
+                const containSpecial = speechArr[index].search(/[?!,.]/g) > -1;
+                const target = speechArr[index];
+                const len = containSpecial
+                    ? speechArr[index].length - 1
+                    : speechArr[index].length;
+                let hints = target
+                    .split("")
+                    .reduce((acc, l, i) => l.search(/[a-z]/g) > -1 ? [...acc, { l, i }] : acc, []);
+                if (!(len in history)) {
+                    history[len] = {
+                        s: speechArr.filter((w) => {
+                            const isWSpecial = w.search(/[?!,.]/g) > -1;
+                            if (isWSpecial)
+                                return w.length - 1 === len;
+                            return w.length === len;
+                        }),
+                        // ? That one is for the mark
+                        v: vocabulary.filter((w) => w.length === len),
+                    };
+                }
+                if (history[len].v.length === 1 && history[len].s.length === 1) {
+                    speechArr[index] = containSpecial
+                        ? history[len].v[0] + target.charAt(target.length - 1)
+                        : history[len].v[0];
+                    history[len].v = [];
+                    history[len].s = [];
+                    hints = [];
+                }
+                if (hints.length > 0) {
+                    let x = -1;
+                    const found = history[len].v.filter((w, ind) => {
+                        const success = hints.reduce((acc, obj) => (acc ? w.charAt(obj.i) === obj.l : acc), true);
+                        if (success) {
+                            x = ind;
+                        }
+                        return success;
+                    });
+                    if (found.length === 1) {
+                        history[len].v.splice(x, 1);
+                        const tIndex = history[len].s.indexOf(target);
+                        if (tIndex > -1) {
+                            history[len].s.splice(history[len].s.indexOf(target), 1);
+                        }
+                        speechArr[index] = containSpecial
+                            ? found[0] + target.charAt(target.length - 1)
+                            : found[0];
+                    }
+                }
+            }
         }
     }
-    return toBeReturned;
+    while (true) {
+        handleChanges();
+        if (speechArr.filter((w) => w.search(/[*]/g) > -1).length === 0)
+            break;
+    }
+    return speechArr.join(" ");
 }
-exports.mixbonacci = mixbonacci;
-// console.log(mixbonacci([], 10), []);
-// console.log(mixbonacci(["fib"], 0), []);
-// console.log(mixbonacci(["fib"], 10), "fib:", [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]);
-// console.log(mixbonacci(["pad"], 10), "pad:", [1, 0, 0, 1, 0, 1, 1, 1, 2, 2]);
-// console.log(mixbonacci(["jac"], 10), "jac:", [
-//   0,
-//   1,
-//   1,
-//   3,
-//   5,
-//   11,
-//   21,
-//   43,
-//   85,
-//   171,
-// ]);
-// console.log(mixbonacci(["pel"], 10), "pel:", [
-//   0,
-//   1,
-//   2,
-//   5,
-//   12,
-//   29,
-//   70,
-//   169,
-//   408,
-//   985,
-// ]);
-// console.log(mixbonacci(["tri"], 10), "tri:", [0, 0, 1, 1, 2, 4, 7, 13, 24, 44]);
-// console.log(mixbonacci(["tet"], 10), "tet:", [0, 0, 0, 1, 1, 2, 4, 8, 15, 29]);
-// console.log(mixbonacci(["fib", "tet"], 10), [0, 0, 1, 0, 1, 0, 2, 1, 3, 1]);
-console.log(mixbonacci(["jac", "jac", "pel"], 10), [
-    0,
-    1,
-    0,
-    1,
-    3,
-    1,
-    5,
-    11,
-    2,
-    21,
-]);
-console.log(mixbonacci(["jac", "fib", "pel"], 10), [
-    0,
-    1,
-    0,
-    1,
-    3,
-    1,
-    5,
-    11,
-    2,
-    21,
-]);
-// ! to be checked
-[
-    0,
-    1,
-    2,
-    5,
-    12,
-    29,
-    70,
-    169,
-    408,
-    985,
-    2378,
-    5741,
-    13860,
-    33461,
-    80782,
-    195025,
-    470832,
-    1136689,
-    2744210,
-    6625109,
-    15994428,
-    38613965,
-    93222358,
-    225058681,
-    543339720,
-    1311738121,
-    3166815962,
-    7645370045,
-    18457556052,
-    44560482149,
-    107578520350,
-    259717522849,
-    627013566048,
-    1513744654945,
-    3654502875938,
-    8822750406821,
-    21300003689580,
-    51422757785981,
-    124145519261542,
-    299713796309065,
-    723573111879672,
-    1746860020068409,
-    4217293152016490,
-    10181446324101388,
-    24580185800219264,
-    59341817924539920,
-    143263821649299100,
-    345869461223138100,
-    835002744095575300,
-    2015874949414288600,
-    4866752642924153000,
-    11749380235262595000,
-    28365513113449340000,
-    68480406462161270000,
+exports.translate = translate;
+// See https://www.chaijs.com for how to use Chai.
+let examp = ["a**? *c*. **e,", ["ace", "acd", "abd"]];
+console.log(translate(examp[0], examp[1]), "[[solution]]:", "abd? acd. ace,");
+let a = ["m** ***e **s l*****", ["name", "myy", "legion", "iss"]];
+console.log(translate(a[0], a[1]), "[[solution]]:", "myy name iss legion");
+let b = [
+    "*** **** **s *****n, f** **e *r* m***!",
+    ["mmy", "name", "iss", "legion", "for", "wwe", "are", "many"],
 ];
-[
-    0,
-    1,
-    2,
-    5,
-    12,
-    29,
-    70,
-    169,
-    408,
-    985,
-    2378,
-    5741,
-    13860,
-    33461,
-    80782,
-    195025,
-    470832,
-    1136689,
-    2744210,
-    6625109,
-    15994428,
-    38613965,
-    93222358,
-    225058681,
-    543339720,
-    1311738121,
-    3166815962,
-    7645370045,
-    18457556052,
-    44560482149,
-    107578520350,
-    259717522849,
-    627013566048,
-    1513744654945,
-    3654502875938,
-    8822750406821,
-    21300003689580,
-    51422757785981,
-    124145519261542,
-    299713796309065,
-    723573111879672,
-    1746860020068409,
-    4217293152016490,
-    10181446324101388,
-    24580185800219264,
-    59341817924539920,
-    143263821649299100,
-    345869461223138200,
-    835002744095575400,
-    2015874949414289000,
-    4866752642924153000,
-    11749380235262595000,
-    28365513113449340000,
-    68480406462161280000,
+console.log(translate(b[0], b[1]), "[[solution]]:", "mmy name iss legion, for wwe are many!");
+let c = [
+    "*** **g *o* never **o **rment m*e!",
+    [
+        "demon",
+        "mme",
+        "hell",
+        "spit",
+        "iii",
+        "pigg",
+        "beg",
+        "too",
+        "you",
+        "never",
+        "torment",
+        "exorcism",
+    ],
 ];
+console.log(translate(c[0], c[1]), "[[solution]]:", "iii beg you never too torment mme!");
+let d = [
+    "***! **ll? f*l*. he*l, fe*l? c*ll. ***t,",
+    ["mel", "dell", "felt", "fill", "fell", "hell", "cell"],
+];
+console.log(translate(d[0], d[1]), "[[solution]]:", "mel! dell? fill. hell, fell? cell. felt,");
+let e = ["", ["hell", "weak"]];
+console.log(translate(e[0], e[1]), "[[solution]]:", "");
+let f = ["****. ***,", ["aaa", "bbbb"]];
+console.log(translate(f[0], f[1]), "[[solution]]:", "bbbb. aaa,");
+a = [
+    "fye*** w*eg **e ***z* ***s x*e*fg *****v eee*eu i** ***re **g*t* *e*",
+    [
+        "eggete",
+        "fefffv",
+        "eeeeeu",
+        "fyefee",
+        "wfeg",
+        "iee",
+        "eefs",
+        "hee",
+        "hfe",
+        "efere",
+        "gegzf",
+        "xgeffg",
+    ],
+];
+console.log(translate(a[0], a[1]), "[[solution]]:", "fyefee wfeg hfe gegzf eefs xgeffg fefffv eeeeeu iee efere eggete hee");
