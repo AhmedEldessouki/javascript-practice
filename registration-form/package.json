@@ -1,5 +1,5 @@
 {
-  "name": "interviewtask",
+  "name": "interviewask",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-   
-  },
+  "devDependencies": {},
   "dependencies": {
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
