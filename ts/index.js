@@ -1,65 +1,39 @@
-"use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
         }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-exports.__esModule = true;
-exports.G964 = void 0;
-var G964 = /** @class */ (function () {
-    function G964() {
-    }
-    G964.part = function (n) {
-        // your code
-        var en = function (n) {
-            var solution = [[n]];
-            for (var x = n - 1; x > 0; x--) {
-                for (var y = n - x > 0 ? n - x : x; y > 0; y--) {
-                    // for (let y = x; y > 0; y--) {
-                    if (y <= x) {
-                        var arr = [x];
-                        var sum = x;
-                        var z = y;
-                        while (z > 0) {
-                            if (sum + z <= n) {
-                                sum += z;
-                                arr.push(z);
-                            }
-                            else {
-                                z--;
-                            }
-                        }
-                        solution.push(arr);
-                    }
-                }
-            }
-            return solution;
-        };
-        var m = en(n);
-        var productSet = new Set(m
-            .map(function (arr) { return arr.reduce(function (acc, num) { return (acc *= num); }, 1); })
-            .sort(function (a, b) { return a - b; }));
-        var productArr = productSet.keys();
-        console.log(__spreadArray([], productArr, true));
-        // const range = Math.max(...product) - Math.min(...product);
-        // const average =
-        //   product.reduce((acc, num) => (acc += num), 0) / product.length;
-        // const prodLen = product.length / 2;
-        // const median =
-        //   product.length % 2 === 1
-        //     ? product[prodLen]
-        //     : product[Math.floor(prodLen)] + product[Math.round(prodLen)] / 2;
-        // console.log(range, average, median);
+        return t;
     };
-    return G964;
-}());
-exports.G964 = G964;
-console.log(G964.part(5), "Range: 5 Average: 3.50 Median: 3.50");
-console.log(G964.part(8), "Range: 17 Average: 8.29 Median: 7.50");
-console.log(G964.part(9), "Range: 26 Average: 11.17 Median: 9.50");
-console.log(G964.part(10), "Range: 35 Average: 15.00 Median: 14.00");
-// console.log(G964.part(40), "Range: 35 Average: 15.00 Median: 14.00");
+    return __assign.apply(this, arguments);
+};
+function findOdd(n) {
+    //happy coding!
+    var ns = Object.values(n.reduce(function (acc, a) {
+        var _a;
+        return (__assign(__assign({}, acc), (_a = {}, _a[a] = a, _a)));
+    }, {}));
+    var _loop_1 = function (index) {
+        var element = ns[index];
+        if (n.filter(function (a) { return a === element; }).length % 0 === 0)
+            return { value: element };
+    };
+    for (var index = 0; index < ns.length; index++) {
+        var state_1 = _loop_1(index);
+        if (typeof state_1 === "object")
+            return state_1.value;
+    }
+}
+console.log(findOdd([7]), 7);
+console.log(findOdd([0]), 0);
+console.log(findOdd([1, 1, 2]), 2);
+console.log(findOdd([0, 1, 0, 1, 0]), 0);
+console.log(findOdd([1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 2, 2, 1]), 4);
+console.log(findOdd([20, 1, -1, 2, -2, 3, 3, 5, 5, 1, 2, 4, 20, 4, -1, -2, 5]), 5);
+console.log(findOdd([1, 1, 2, -2, 5, 2, 4, 4, -1, -2, 5]), -1);
+console.log(findOdd([20, 1, 1, 2, 2, 3, 3, 5, 5, 4, 20, 4, 5]), 5);
+console.log(findOdd([10]), 10);
+console.log(findOdd([1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1]), 10);
+console.log(findOdd([5, 4, 3, 2, 1, 5, 4, 3, 2, 10, 10]), 1);
