@@ -1,11 +1,4 @@
-export function findOdd(n: number[]) {
-  //happy coding!
-  const ns = Object.values(n.reduce((acc, a) => ({ ...acc, [a]: a }), {}));
-  for (let index = 0; index < ns.length; index++) {
-    const element = ns[index];
-    if (n.filter((a) => a === element).length % 2 !== 0) return element;
-  }
-}
+export const findOdd = (xs: number[]) => xs.reduce((a, b) => a ^ b, 0);
 
 console.log(findOdd([7]), 7);
 console.log(findOdd([0]), 0);
